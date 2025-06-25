@@ -1,0 +1,173 @@
+/* Base Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+}
+
+/* Background Image */
+.background-layer {
+  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -2;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../MFG FORM/mfg.jpg'); /* or your actual image path */
+  background-size: contain; /* Ensure the whole image fits */
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  filter: blur(8px);
+  background-color: black; /* Fallback background */
+}
+
+/* Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  z-index: 1000;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+.nav-links a {
+  margin-left: 2rem;
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ff0000;
+}
+
+#searchInput {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  background-color: #222;
+  color: #fff;
+  border: 1px solid #444;
+}
+
+#searchInput::placeholder {
+  color: #aaa;
+}
+
+.player-grid {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+  padding: 2rem;
+}
+
+/* Player Card */
+.player-card {
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgb(183, 183, 183);
+  transition: transform 0.3s;
+}
+
+.player-card:hover {
+  transform: translateY(-5px);
+}
+
+.player-img {
+  margin-right: 1.5rem;
+  flex-shrink: 0;
+}
+
+.player-img img {
+  width: 100px;
+  height: auto;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.player-info {
+  flex: 1;
+}
+
+.player-info h3 {
+  color: #ff0000;
+  margin-bottom: 0.5rem;
+}
+
+.player-info p {
+  margin: 0.25rem 0;
+}
+
+.logo img {
+  height: 60px; /* Adjust height as needed */
+  width: auto;
+  display: block;
+}
+
+
+/*footer*/
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+.powered-by {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+footer a {
+  color: #ff0000;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: #00ffee;
+}
+
+footer a:visited {
+  color: red;
+}
