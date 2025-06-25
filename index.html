@@ -37,6 +37,94 @@
       <p>The top 1 drifting club in Car Parking Multiplayer.</p>
     </section>
 
+
+    <!-- Firebase SDKs from CDN -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
+<!-- Uploadcare -->
+<script>
+  UPLOADCARE_PUBLIC_KEY = 'your_uploadcare_public_key';
+</script>
+<script src="https://ucarecdn.com/libs/widget/3.x/uploadcare.full.min.js"></script>
+
+<!-- Upload Form -->
+<div id="upload-form">
+  <input type="text" id="name" placeholder="Your name" />
+  <input type="text" id="caption" placeholder="Caption..." />
+  <input type="hidden" role="uploadcare-uploader" data-images-only />
+  <button onclick="submitPost()">Post</button>
+</div>
+
+<!-- Feed Display -->
+<div class="feed-grid" id="feed"></div>
+
+<script>
+  // ✅ Your Firebase config
+  const firebaseConfig = {
+    apiKey: "AIzaSyDKjvERjZEGVOkcBtlduUZFA6kRk6k-B18",
+    authDomain: "modern-formula-ghost.firebaseapp.com",
+    projectId: "modern-formula-ghost",
+    storageBucket: "modern-formula-ghost.firebasestorage.app",
+    messagingSenderId: "456424596100",
+    appId: "1:456424596100:web:556a3eeb39d8329aca98d1",
+    measurementId: "G-JHDBDZ1YZ6"
+  };
+
+  // Init Firebase App
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  // Uploadcare widget
+  const widget = uploadcare.Widget('[role=uploadcare-uploader]');
+  let uploadedImageUrl = "";
+
+  widget.onUploadComplete((info) => {
+    uploadedImageUrl = info.cdnUrl;
+  });
+
+  // Submit new post to Firestore
+  function submitPost() {
+    const name = document.getElementById("name").value.trim();
+    const caption = document.getElementById("caption").value.trim();
+
+    if (!uploadedImageUrl || !name || !caption) {
+      alert("Please complete all fields and upload an image.");
+      return;
+    }
+
+    db.collection("posts").add({
+      name: name,
+      caption: caption,
+      image: uploadedImageUrl,
+      createdAt: new Date()
+    }).then(() => {
+      alert("Post added!");
+      location.reload();
+    });
+  }
+
+  // Load all posts
+  function loadFeed() {
+    const feed = document.getElementById("feed");
+    db.collection("posts").orderBy("createdAt", "desc").get().then(snapshot => {
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const post = document.createElement("div");
+        post.className = "feed-post";
+        post.innerHTML = `
+          <img src="${data.image}" alt="Drift photo">
+          <p><strong>${data.name}</strong>: ${data.caption}</p>
+        `;
+        feed.appendChild(post);
+      });
+    });
+  }
+
+  loadFeed();
+</script>
+    
+
     <!-- About Section -->
     <section id="about" class="section about-split">
       <div class="about-left">
@@ -88,6 +176,22 @@
 
   hamburger.addEventListener("click", () => {
     navLinks.classList.toggle("open");
+  });
+
+    uploadcare.Widget('[role=uploadcare-uploader]').onUploadComplete(function(info) {
+    const feedGrid = document.querySelector('.feed-grid');
+
+    // Create a new post element
+    const newPost = document.createElement('div');
+    newPost.classList.add('feed-post');
+
+    newPost.innerHTML = `
+      <img src="${info.cdnUrl}" alt="Uploaded by user">
+      <p><strong>User:</strong> New upload!</p>
+    `;
+
+    // Add to top of feed
+    feedGrid.prepend(newPost);
   });
 </script>
 </body>
