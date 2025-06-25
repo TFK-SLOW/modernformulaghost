@@ -19,6 +19,7 @@
 
   <!-- Nav links -->
   <nav class="nav-links" id="nav-links">
+    <a href="#" onclick="openModal()">Upload</a>
     <a href="#home">Home</a>
     <a href="#about">About</a>
     <a href="Player-info/player_info.html">Player Info</a>
@@ -155,6 +156,18 @@
     </section>
   </div>
 
+  <!-- Upload Modal -->
+<div id="uploadModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h2>Upload Post</h2>
+    <input type="text" id="name" placeholder="Your name" />
+    <input type="text" id="caption" placeholder="Caption..." />
+    <input type="hidden" role="uploadcare-uploader" data-images-only />
+    <button onclick="submitPost()">Post</button>
+  </div>
+</div>
+
   <footer>
   <p id="tiktok">Contact us:<br><a href="https://www.tiktok.com/@mfgteam?is_from_webapp=1&sender_device=pc" target="_blank">TIKTOK</a><br><a href="https://www.facebook.com/profile.php?id=61577144714826" target="_blank">FACEBOOK</a></p>
   <p>© 2025 Modern Formula Ghost Team. All rights reserved.</p>
@@ -207,6 +220,22 @@
     // Add to top of feed
     feedGrid.prepend(newPost);
   });
+
+    function openModal() {
+    document.getElementById("uploadModal").style.display = "block";
+  }
+
+  function closeModal() {
+    document.getElementById("uploadModal").style.display = "none";
+  }
+
+  // Close modal if user clicks outside the box
+  window.onclick = function (event) {
+    const modal = document.getElementById("uploadModal");
+    if (event.target === modal) {
+      modal.style.display = "none";
+    }
+  };
 </script>
 </body>
 </html>
