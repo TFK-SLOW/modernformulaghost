@@ -1,0 +1,500 @@
+/* Reset and Basics */
+* {
+  box-sizing: border-box;
+}
+
+body, html {
+  color: rgb(255, 255, 255);
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+body {
+  color: rgb(247, 92, 92);
+}
+
+/* Background Image */
+.background-layer {
+  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -2;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('mfg.jpg'); /* or your actual image path */
+  background-size: contain; /* Ensure the whole image fits */
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  filter: blur(8px);
+  background-color: black; /* Fallback background */
+}
+
+/* Form Container */
+.form-container {
+  max-width: 1000px;
+  width: calc(100% - 4in);
+  margin: 1.5in auto;
+  padding: 30px;
+  background-color: rgba(0, 0, 0, 0.4); /* changed to soft transparent black */
+  backdrop-filter: blur(4px); /* optional frosted-glass effect */
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgb(123, 122, 122);
+  flex: 1;
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    margin: 20px;
+    width: auto;
+  }
+}
+
+.form-container {
+  color: white;
+}
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 2px solid #292929;
+  background-color: #cbcbcb9e;
+  color: #000;
+  font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  outline: none;
+  border-color: #005fa3;
+  background-color: #ffffff;
+}
+
+.checkbox-group {
+  margin-top: 10px;
+}
+
+.checkbox-group label {
+  display: block;
+  font-weight: normal;
+}
+
+button {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background-color: #3498db;
+  color: rgb(0, 0, 0);
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+.rules-link {
+  color: #4da3ff;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rules-link:hover {
+  text-decoration: underline dotted;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0, 0, 0, 0.452);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: #2d2d2d;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: left;
+  color: white;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh; /* Prevent modal from overflowing */
+  display: flex;
+  flex-direction: column;
+}
+
+.rules-scroll {
+  overflow-y: auto;
+  max-height: 300px; /* Adjust as needed */
+  margin-bottom: 20px;
+  padding-right: 8px;
+}
+
+/* Optional: nice scrollbar styling */
+.rules-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.rules-scroll::-webkit-scrollbar-thumb {
+  background-color: #666;
+  border-radius: 4px;
+}
+
+/* Buttons side by side */
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #444;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-buttons button:hover {
+  background-color: #555;
+}
+
+.modal-content button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+.powered-by {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+footer a {
+  color: #ff0000;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: #00ffee;
+}
+
+footer a:visited {
+  color: red;
+}
+
+/* Label and Select (Yes/No dropdown) */
+#inClub {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  margin-bottom: 20px;
+  background-color: #cbcbcb9e;
+  border: 2px solid rgb(76, 76, 76);
+  color: white;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgb(0, 0, 0);
+  font-size: 16px;
+}
+
+#inClub:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 12px #ffffff;
+}
+
+/* Hidden input that shows on 'Yes' */
+#clubNameContainer {
+  margin-bottom: 20px;
+}
+
+#clubName {
+  width: 100%;
+  padding: 10px;
+  background-color: #cbcbcb9e;
+  border: 2px solid rgb(35, 35, 35);
+  color: white;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0);
+  font-size: 16px;
+}
+
+#clubName:focus {
+  outline: none;
+  border-color: #ffffff;
+  box-shadow: 0 0 12px #ffffff;
+}
+
+/* Label styling (optional, for consistency) */
+label[for="inClub"], label[for="clubName"] {
+  font-weight: 600;
+  color: #ffffff;
+  display: block;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+/* FILE INPUT CUSTOM STYLING */
+.file-upload {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 400px;
+  margin: 10px 0;
+}
+
+.file-upload input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-upload-label {
+  display: block;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  border: 2px dashed rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.file-upload-label:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.file-upload span {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.center-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Remove this if you only want horizontal centering */
+  width: 100%;
+  margin-top: 20px; /* Optional spacing from above elements */
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 300px; /* optional: to control overall width */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.modal-buttons button {
+  flex: 1;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  transition: background-color 0.2s ease;
+}
+
+.modal-buttons button:hover {
+  background-color: #0c7cd5;
+}
+
+#declineButton {
+  background-color: #ff4d4d;
+}
+
+#declineButton:hover {
+  background-color: #cc0000;
+}
+
+#agreeButton {
+  background-color: #0c7cd5;
+}
+
+#agreeButton:hover {
+  background-color: #0b60a3;
+}
+
+/* Age Confirmation Modal */
+.age-modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.age-modal-content {
+  background-color: #111;
+  color: white;
+  padding: 30px 20px;
+  border-radius: 12px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+.age-modal-content h2 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.age-modal-content p {
+  font-size: 16px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.age-modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.age-modal-buttons button {
+  flex: 1;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#confirmAgeBtn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#denyAgeBtn {
+  background-color: #f44336;
+  color: white;
+}
+
+.age-modal-buttons button:hover {
+  opacity: 0.9;
+}
+
+/* Optional animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.navbar {
+  position: sticky;
+  top: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  z-index: 1000;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+.nav-links a {
+  margin-left: 2rem;
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ff0000;
+}
+
+.logo img {
+  height: 60px; /* Adjust height as needed */
+  width: auto;
+  display: block;
+}

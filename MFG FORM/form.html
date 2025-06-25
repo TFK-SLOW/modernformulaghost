@@ -1,0 +1,149 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="/favicon_io/favicon.ico" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Join the Club</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+      <header class="navbar">
+    <div class="logo">
+        <img src="../photos/mainlogo.svg" alt="Modern Formula Ghost Logo" />
+    </div>
+    <nav class="nav-links">
+        <a href="../index.html">Home</a>
+    </nav>
+    </header>
+
+  <div class="background"></div>
+
+  <div class="form-container">
+    <h2>Join the Club</h2>
+    <form id="clubForm">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required />
+
+      <label for="age">Age:</label>
+      <input type="number" id="age" name="age" required />
+
+      <label for="gameId">Game ID:</label>
+      <input type="text" id="gameId" name="gameId" required />
+
+      <label for="ign">In-Game Name:</label>
+      <input type="text" id="ign" name="ign" required />
+
+      <label>Drivetrain (Pick all that apply):</label>
+      <div class="checkbox-group">
+        <label><input type="checkbox" name="drivetrain" value="AWD" /> AWD</label>
+        <label><input type="checkbox" name="drivetrain" value="DM" /> DM</label>
+        <label><input type="checkbox" name="drivetrain" value="RWD" /> RWD</label>
+        <label><input type="checkbox" name="drivetrain" value="FWD" /> FWD</label>
+      </div>
+
+      <label for="reason">Why do you want to join the club?</label>
+      <textarea id="reason" name="reason" rows="10" required></textarea>
+
+      <label for="inClub">Did you ever join a drift club before?</label>
+        <select id="inClub" name="inClub">
+        <option value="">Select an option</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+        </select>
+
+        <div id="clubNameContainer" style="display: none;">
+        <label for="clubName">What club?</label>
+        <input type="text" id="clubName" name="clubName" />
+        </div>
+
+      <label for="contact">Email or Facebook Name:</label>
+      <input type="text" id="contact" name="contact" required />
+
+        <div class="center-wrapper">
+        <div class="file-upload">
+            <img id="previewImage" src="" alt="Image Preview" style="display:none; max-width: 100%; margin-top: 10px; border-radius: 10px; box-shadow: 0 0 10px rgba(255,255,255,0.2);">
+            <label for="screenshot" class="file-upload-label">
+            📎 Upload Face Photo for Verification
+            <span>(Accepted: .jpg, .png)</span>
+            </label>
+            <input type="file" id="screenshot" name="screenshot" accept="image/*">
+        </div>
+        </div>
+
+      <!-- Rules section -->
+      <div class="rules-section">
+        <span id="readRulesLink" class="rules-link">MFG CLUB RULES</span>
+        <label for="rulesCheckbox" class="rules-label">
+          <input type="checkbox" id="rulesCheckbox" disabled />
+          I agree to the rules
+        </label>
+      </div>
+
+      <button type="submit" id="submitButton" style="display:none">Submit</button>
+    </form>
+  </div>
+
+<!-- Rules Modal -->
+<div id="rulesModal" class="modal">
+  <div class="modal-content">
+    <h3>Club Rules</h3>
+    <div class="rules-scroll">
+      <p>
+        🔴🔴𝐏𝐋𝐄𝐀𝐒𝐄 𝐀𝐋𝐋𝐎𝐖 𝐋𝐎𝐂𝐀𝐓𝐈𝐎𝐍 𝐀𝐂𝐂𝐄𝐒𝐒 𝐅𝐎𝐑 𝐓𝐇𝐄 𝐅𝐎𝐑𝐌 𝐓𝐎 𝐁𝐄 𝐏𝐑𝐎𝐏𝐄𝐑𝐋𝐘 𝐒𝐔𝐁𝐌𝐈𝐓𝐄𝐃(𝐘𝐎𝐔 𝐂𝐀𝐍 𝐒𝐓𝐈𝐋𝐋 𝐃𝐄𝐂𝐋𝐈𝐍𝐄 𝐈𝐅 𝐘𝐎𝐔 𝐖𝐀𝐍𝐓 𝐓𝐎) 𝐀𝐍𝐃 𝐍𝐎 𝐋𝐎𝐂𝐀𝐓𝐈𝐎𝐍 𝐈𝐍𝐅𝐎 𝐖𝐈𝐋𝐋 𝐁𝐄 𝐓𝐀𝐊𝐄𝐍🔴🔴<br><br>
+        ⚠️USING ADD BLOCKER OR ANY TYPE OF BLOCKER MAY NOT ALLOW YOU TO SUBMIT FORM (BUG) SO PLEASE DISABLE THESE TYPE OF BLOCKER TO BE ABLE TO PRESS SUBMIT. THIS WEBSITE IS SAFE AND THE INFORMATION IS ONLY GIVEN TO THE ADMINS⚠️.️<br><br>
+        RULES MUST FOLLOW:<br><br><br>
+        1. TRASH TALK IS NOT ALLOWED. If found with this behavior while in club gc or in-game it will result in a 1 warning <br><br>
+        2. TOXIC BEHAVIOR IS NOT ALLOWED. If found with this behavior while in a club or in-game it will result in a 1 warning<br><br>
+        3. SPYING IS NOT ALLOWED. If found, maybe given a warning or instantly kicked out of the club<br><br>
+        4. DOUBLE CLUB IS STRICTLY PROHIBITED. If accused of valid double club it will result in being instantly kicked<br><br>
+        5. SENDING 18+/NSFW CONTENT IS STRICTLY PROHIBITED. This may result in a warning or kick depending on the level<br><br>
+        6. UNCOOPERATIVE BEHAVIOR DURING EVENTS IS NOT ALLOWED<br><br>
+        7. ALWAYS RESPECT ADMINS AND ALL MEMBERS.<br><br>
+        8. YOU WILL BE GIVEN 3 WARNINGS ONLY. Reaching this leads to an auto kick<br><br>
+        9. DUMP/ALT ACCOUNT NOT ALLOWED. May reduce chances of being accepted.<br><br>
+        By pressing "I agree," your information will be sent to the club admins only.
+      </p>
+    </div>
+    <div class="modal-buttons">
+      <button id="agreeButton">I Agree</button>
+      <button id="declineButton">Decline</button>
+    </div>
+  </div>
+</div>
+
+<!-- Photo Warning Modal -->
+<div id="photoModal" class="modal">
+  <div class="modal-content">
+    <h3>⚠️ Missing Photo</h3>
+    <p>Not inserting a photo might lower your chance to be accepted into the club.</p>
+    <div class="modal-buttons">
+      <button id="photoBackBtn">Go Back</button>
+      <button id="photoOkBtn">OK</button>
+    </div>
+  </div>
+</div>
+
+<!-- Age Confirmation Modal -->
+<div id="ageModal" class="modal">
+  <div class="modal-content">
+    <h3>Age Confirmation</h3>
+    <p>Is this your correct age?</p>
+    <div class="modal-buttons">
+      <button id="ageAgreeButton" class="agreeButton">Yes</button>
+      <button id="ageDeclineButton" class="declineButton">No</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p id="tiktok">Contact us:<br><a href="https://www.tiktok.com/@mfgteam?is_from_webapp=1&sender_device=pc" target="_blank">TIKTOK</a><br><a href="https://www.facebook.com/profile.php?id=61577144714826" target="_blank">FACEBOOK</a></p>
+  <p>© 2025 Modern Formula Ghost Team. All rights reserved.</p>
+  <p><span class="powered-by">THIS WEBSITE IS MADE BY SLOW AND THIS WEBSITE BE ONLY USED FOR MFG SCREENING</span></p>
+</footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
