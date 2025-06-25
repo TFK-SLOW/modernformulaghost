@@ -104,17 +104,31 @@
     });
   }
 
+  function deletePost(id) {
+  if (confirm("Are you sure you want to delete this post?")) {
+    db.collection("posts").doc(id).delete().then(() => {
+      alert("Post deleted.");
+      location.reload();
+    }).catch((error) => {
+      console.error("Error deleting post: ", error);
+    });
+  }
+}
+
   // Load all posts
   function loadFeed() {
     const feed = document.getElementById("feed");
     db.collection("posts").orderBy("createdAt", "desc").get().then(snapshot => {
       snapshot.forEach(doc => {
         const data = doc.data();
+        const postId = doc.id;
+  
         const post = document.createElement("div");
         post.className = "feed-post";
         post.innerHTML = `
-          <img src="${data.image}" alt="Drift photo">
+          <img src="${data.image}" alt="Drift photo" />
           <p><strong>${data.name}</strong>: ${data.caption}</p>
+          <button class="delete-btn" onclick="deletePost('${postId}')">🗑️ Delete</button>
         `;
         feed.appendChild(post);
       });
