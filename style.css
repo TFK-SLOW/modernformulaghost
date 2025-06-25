@@ -1,0 +1,201 @@
+/* Reset and Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+}
+
+/* Background Video */
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+/* Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  z-index: 1000;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ff0000;
+}
+
+.nav-links a {
+  margin-left: 2rem;
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ff0000;
+}
+
+/* Hamburger icon (hidden on desktop) */
+.hamburger {
+  display: none;
+  font-size: 2rem;
+  color: white;
+  cursor: pointer;
+}
+
+/* Responsive nav menu default */
+.nav-links {
+  display: flex;
+  align-items: center;
+  transition: max-height 0.3s ease-in-out;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    right: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    max-height: 0;
+    overflow: hidden;
+    border-top: 1px solid #444;
+    z-index: 999;
+  }
+
+  .nav-links a {
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+  }
+
+  .nav-links.open {
+    max-height: 400px; /* Adjust if needed */
+  }
+}
+
+/* Content Wrapper */
+.content {
+  position: relative;
+  z-index: 1;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.6);
+  min-height: 100vh;
+}
+
+/* Sections */
+.section {
+  padding: 4rem 0;
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* Home Section */
+.home-section {
+  text-align: center;
+  padding-top: 6rem;
+}
+
+.home-section h1 {
+  font-size: 3rem;
+  color: #ff0000;
+}
+
+/* About Section Split */
+.about-split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-left {
+  flex: 1;
+  min-width: 300px;
+}
+
+.about-left img {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0);
+}
+
+.about-right {
+  flex: 1;
+  min-width: 300px;
+}
+
+.about-right h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #ff0000;
+  display: inline-block;
+}
+
+.about-right p {
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.logo img {
+  height: 60px; /* Adjust height as needed */
+  width: auto;
+  display: block;
+}
+
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+.powered-by {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+footer a {
+  color: #ff0000;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: #00ffee;
+}
+
+footer a:visited {
+  color: red;
+}
