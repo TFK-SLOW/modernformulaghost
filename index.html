@@ -6,14 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Modern Formula Ghost</title>
   <link rel="stylesheet" href="style.css" />
+
   <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
 </head>
 <body>
-  <video id="bg-video" autoplay muted loop></video>   
 
+  <!-- Background Video -->
+  <video id="bg-video" autoplay muted loop>
+    <source src="videos/RX7_film.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Header -->
   <header class="navbar">
     <div class="logo">
       <img src="photos/mainlogo.svg" alt="Modern Formula Ghost Logo" />
@@ -28,12 +35,12 @@
     <div class="hamburger" id="hamburger">☰</div>
   </header>
 
+  <!-- Content -->
   <div class="content">
     <section id="home" class="section home-section">
       <h1>Welcome to Modern Formula Ghost</h1>
       <p>The top 1 drifting club in Car Parking Multiplayer.</p>
     </section>
-
 
     <!-- Upload Modal -->
     <div id="uploadModal" class="modal">
@@ -50,6 +57,7 @@
     <!-- Feed Display -->
     <div class="feed-grid" id="feed"></div>
 
+    <!-- About Section -->
     <section id="about" class="section about-split">
       <div class="about-left">
         <img src="photos/mfglogo.svg" alt="Club Image" />
@@ -65,132 +73,131 @@
     </section>
   </div>
 
+  <!-- Footer -->
   <footer>
-    <p id="tiktok">Contact us:<br><a href="https://www.tiktok.com/@mfgteam" target="_blank">TIKTOK</a><br><a href="https://www.facebook.com/profile.php?id=61577144714826" target="_blank">FACEBOOK</a></p>
+    <p id="tiktok">
+      Contact us:<br>
+      <a href="https://www.tiktok.com/@mfgteam" target="_blank">TIKTOK</a><br>
+      <a href="https://www.facebook.com/profile.php?id=61577144714826" target="_blank">FACEBOOK</a>
+    </p>
     <p>© 2025 Modern Formula Ghost Team. All rights reserved.</p>
     <p><span class="powered-by">THIS WEBSITE IS MADE BY SLOW AND THIS WEBSITE BE ONLY USED FOR MODERN FORMULA GHOST CLUB</span></p>
   </footer>
 
+  <!-- Script -->
   <script>
     const firebaseConfig = {
-    apiKey: "AIzaSyDKjvERjZEGVOkcBtlduUZFA6kRk6k-B18",
-    authDomain: "modern-formula-ghost.firebaseapp.com",
-    projectId: "modern-formula-ghost",
-    storageBucket: "modern-formula-ghost.appspot.com",
-    messagingSenderId: "456424596100",
-    appId: "1:456424596100:web:556a3eeb39d8329aca98d1",
-    measurementId: "G-JHDBDZ1YZ6"
-  };
+      apiKey: "AIzaSyDKjvERjZEGVOkcBtlduUZFA6kRk6k-B18",
+      authDomain: "modern-formula-ghost.firebaseapp.com",
+      projectId: "modern-formula-ghost",
+      storageBucket: "modern-formula-ghost.appspot.com",
+      messagingSenderId: "456424596100",
+      appId: "1:456424596100:web:556a3eeb39d8329aca98d1",
+      measurementId: "G-JHDBDZ1YZ6"
+    };
 
-  // Init Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const storage = firebase.storage();
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
-  // Submit post
-  function submitPost() {
-    const name = document.getElementById("name").value.trim();
-    const caption = document.getElementById("caption").value.trim();
-    const file = document.getElementById("imageUpload").files[0];
+    function submitPost() {
+      const name = document.getElementById("name").value.trim();
+      const caption = document.getElementById("caption").value.trim();
+      const file = document.getElementById("imageUpload").files[0];
 
-    if (!name || !caption || !file) {
-      alert("Please fill in all fields and select an image.");
-      return;
-    }
+      if (!name || !caption || !file) {
+        alert("Please fill in all fields and select an image.");
+        return;
+      }
 
-    const storageRef = storage.ref("images/" + Date.now() + "_" + file.name);
-    storageRef.put(file).then(snapshot => {
-      return snapshot.ref.getDownloadURL();
-    }).then(downloadURL => {
-      return db.collection("posts").add({
-        name: name,
-        caption: caption,
-        image: downloadURL,
-        createdAt: new Date()
-      });
-    }).then(() => {
-      alert("Post uploaded!");
-      closeModal();
-      location.reload();
-    }).catch(error => {
-      console.error("Upload failed:", error);
-      alert("Upload failed.");
-    });
-  }
-
-  // Load feed
-  function loadFeed() {
-    const feed = document.getElementById("feed");
-    db.collection("posts").orderBy("createdAt", "desc").get().then(snapshot => {
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const postId = doc.id;
-        const post = document.createElement("div");
-        post.className = "feed-post";
-        post.innerHTML = `
-          <img src="${data.image}" alt="Drift photo" />
-          <p><strong>${data.name}</strong>: ${data.caption}</p>
-          <button class="delete-btn" onclick="deletePost('${postId}')">🗑️ Delete</button>
-        `;
-        feed.appendChild(post);
-      });
-    });
-  }
-
-  function deletePost(id) {
-    if (confirm("Delete this post?")) {
-      db.collection("posts").doc(id).delete().then(() => {
-        alert("Deleted.");
+      const storageRef = storage.ref("images/" + Date.now() + "_" + file.name);
+      storageRef.put(file).then(snapshot => {
+        return snapshot.ref.getDownloadURL();
+      }).then(downloadURL => {
+        return db.collection("posts").add({
+          name,
+          caption,
+          image: downloadURL,
+          createdAt: new Date()
+        });
+      }).then(() => {
+        alert("Post uploaded!");
+        closeModal();
         location.reload();
+      }).catch(error => {
+        console.error("Upload failed:", error);
+        alert("Upload failed.");
       });
     }
-  }
 
-  loadFeed();
-
-  function openModal() {
-    document.getElementById("uploadModal").style.display = "block";
-  }
-
-  function closeModal() {
-    document.getElementById("uploadModal").style.display = "none";
-  }
-
-  window.onclick = function (event) {
-    const modal = document.getElementById("uploadModal");
-    if (event.target === modal) {
-      modal.style.display = "none";
+    function loadFeed() {
+      const feed = document.getElementById("feed");
+      db.collection("posts").orderBy("createdAt", "desc").get().then(snapshot => {
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const postId = doc.id;
+          const post = document.createElement("div");
+          post.className = "feed-post";
+          post.innerHTML = `
+            <img src="${data.image}" alt="Drift photo" />
+            <p><strong>${data.name}</strong>: ${data.caption}</p>
+            <button class="delete-btn" onclick="deletePost('${postId}')">🗑️ Delete</button>
+          `;
+          feed.appendChild(post);
+        });
+      });
     }
-  };
 
-      const videoElement = document.getElementById('bg-video');
-  const videoSources = [
-    'videos/RX7_film.mp4',
-    'videos/mountain meet.mp4',
-    'videos/repair.mp4'
-  ];
+    function deletePost(id) {
+      if (confirm("Delete this post?")) {
+        db.collection("posts").doc(id).delete().then(() => {
+          alert("Deleted.");
+          location.reload();
+        });
+      }
+    }
 
-  let currentIndex = 0;
+    function openModal() {
+      document.getElementById("uploadModal").style.display = "block";
+    }
 
-  function playNext() {
-    videoElement.src = videoSources[currentIndex];
-    videoElement.load();
-    videoElement.play();
+    function closeModal() {
+      document.getElementById("uploadModal").style.display = "none";
+    }
 
-    // Set up next index (looping back to 0 at the end)
-    currentIndex = (currentIndex + 1) % videoSources.length;
+    window.onclick = function (event) {
+      const modal = document.getElementById("uploadModal");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
 
-    // Set up next video when this one ends
-    videoElement.onended = playNext;
-  }
+    const videoElement = document.getElementById('bg-video');
+    const videoSources = [
+      'videos/RX7_film.mp4',
+      'videos/mountain meet.mp4',
+      'videos/repair.mp4'
+    ];
+    let currentIndex = 0;
 
-  playNext();
+    function playNext() {
+      videoElement.src = videoSources[currentIndex];
+      videoElement.load();
+      videoElement.play();
+      currentIndex = (currentIndex + 1) % videoSources.length;
+      videoElement.onended = playNext;
+    }
 
-  const hamburger = document.getElementById("hamburger");
-  const navLinks = document.getElementById("nav-links");
+    playNext();
 
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("open");
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("nav-links");
+
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    loadFeed();
   </script>
 </body>
 </html>
