@@ -100,14 +100,46 @@
     const db = firebase.firestore();
     const storage = firebase.storage();
 
-    function submitPost() {
-      const name = document.getElementById("name").value.trim();
-      const caption = document.getElementById("caption").value.trim();
-      const file = document.getElementById("imageUpload").files[0];
-
-      if (!name || !caption || !file) {
-        alert("Please fill in all fields and select an image.");
-        return;
+      function submitPost() {
+        const name = document.getElementById("name").value.trim();
+        const caption = document.getElementById("caption").value.trim();
+        const fileInput = document.getElementById("imageUpload");
+        const file = fileInput.files[0];
+      
+        if (!name || !caption || !file) {
+          alert("Please fill in all fields and select an image.");
+          console.warn("Missing field(s). Name:", name, "Caption:", caption, "File:", file);
+          return;
+        }
+      
+        const fileName = Date.now() + "_" + file.name;
+        const storageRef = storage.ref("images/" + fileName);
+      
+        console.log("Uploading:", fileName);
+      
+        storageRef.put(file)
+          .then(snapshot => {
+            console.log("Upload success:", snapshot);
+            return snapshot.ref.getDownloadURL();
+          })
+          .then(downloadURL => {
+            console.log("Download URL:", downloadURL);
+            return db.collection("posts").add({
+              name,
+              caption,
+              image: downloadURL,
+              createdAt: new Date()
+            });
+          })
+          .then(() => {
+            alert("Post uploaded!");
+            closeModal();
+            location.reload();
+          })
+          .catch(error => {
+            console.error("Upload failed:", error);
+            alert("Upload failed. Check console for details.");
+          });
       }
 
       const storageRef = storage.ref("images/" + Date.now() + "_" + file.name);
