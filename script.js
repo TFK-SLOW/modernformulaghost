@@ -1,4 +1,4 @@
-// Firebase configuration (make sure this matches what's in your main HTML)
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDKjvERjZEGVOkcBtlduUZFA6kRk6k-B18",
   authDomain: "modern-formula-ghost.firebaseapp.com",
@@ -9,21 +9,25 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
+const db = firebase.firestore();
 
 const ADMIN_EMAILS = ["kz.guira08@gmail.com"];
 let currentUser = null;
 
-// Monitor authentication state
+// Monitor auth state
 auth.onAuthStateChanged(user => {
   currentUser = user;
+  const logoutBtn = document.querySelector("button[onclick='logout()']");
+  const loginBtn = document.querySelector("button[onclick='openLoginModal()']");
+  
   if (user) {
     console.log("Logged in as:", user.email);
-    document.querySelector("button[onclick='logout()']").style.display = "inline-block";
-    document.querySelector("button[onclick='openLoginModal()']").style.display = "none";
+    if (logoutBtn) logoutBtn.style.display = "inline-block";
+    if (loginBtn) loginBtn.style.display = "none";
   } else {
     console.log("Not logged in");
-    document.querySelector("button[onclick='logout()']").style.display = "none";
-    document.querySelector("button[onclick='openLoginModal()']").style.display = "inline-block";
+    if (logoutBtn) logoutBtn.style.display = "none";
+    if (loginBtn) loginBtn.style.display = "inline-block";
   }
 });
 
@@ -87,3 +91,71 @@ window.addEventListener("click", function (event) {
   if (event.target === loginModal) loginModal.style.display = "none";
   if (event.target === signupModal) signupModal.style.display = "none";
 });
+
+// Upload Modal control with auth check
+function openModal() {
+  if (!currentUser) {
+    openLoginModal();
+    return;
+  }
+  document.getElementById("uploadModal").style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById("uploadModal").style.display = "none";
+}
+
+// Upload post
+function submitPost() {
+  if (!currentUser) {
+    alert("Please log in to post.");
+    openLoginModal();
+    return;
+  }
+
+  const caption = document.getElementById("caption").value.trim();
+  const file = document.getElementById("imageUpload").files[0];
+
+  if (!caption || !file) {
+    alert("Please fill in all fields and select an image.");
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = function () {
+    const base64Image = reader.result.split(',')[1];
+
+    fetch("https://api.imgur.com/3/image", {
+      method: "POST",
+      headers: {
+        Authorization: `Client-ID 7f74d5298224982`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        image: base64Image,
+        type: "base64"
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const imageUrl = data.data.link;
+      return db.collection("posts").add({
+        name: currentUser.email,
+        caption,
+        image: imageUrl,
+        createdAt: new Date(),
+        uid: currentUser.uid
+      });
+    })
+    .then(() => {
+      alert("Post uploaded!");
+      closeModal();
+      location.reload();
+    })
+    .catch(err => {
+      console.error("Upload failed:", err);
+      alert("Imgur upload failed.");
+    });
+  };
+  reader.readAsDataURL(file);
+}
