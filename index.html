@@ -6,21 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Modern Formula Ghost</title>
   <link rel="stylesheet" href="style.css" />
-
-  <!-- Firebase SDKs -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-storage-compat.js"></script>
 </head>
 <body>
-
-  <!-- Background Video -->
   <video id="bg-video" autoplay muted loop>
     <source src="videos/RX7_film.mp4" type="video/mp4">
     Your browser does not support the video tag.
   </video>
 
-  <!-- Header -->
   <header class="navbar">
     <div class="logo">
       <img src="photos/mainlogo.svg" alt="Modern Formula Ghost Logo" />
@@ -35,14 +29,12 @@
     <div class="hamburger" id="hamburger">☰</div>
   </header>
 
-  <!-- Content -->
   <div class="content">
     <section id="home" class="section home-section">
       <h1>Welcome to Modern Formula Ghost</h1>
       <p>The top 1 drifting club in Car Parking Multiplayer.</p>
     </section>
 
-    <!-- Upload Modal -->
     <div id="uploadModal" class="modal">
       <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
@@ -54,10 +46,8 @@
       </div>
     </div>
 
-    <!-- Feed Display -->
     <div class="feed-grid" id="feed"></div>
 
-    <!-- About Section -->
     <section id="about" class="section about-split">
       <div class="about-left">
         <img src="photos/mfglogo.svg" alt="Club Image" />
@@ -73,7 +63,6 @@
     </section>
   </div>
 
-  <!-- Footer -->
   <footer>
     <p id="tiktok">
       Contact us:<br>
@@ -84,82 +73,273 @@
     <p><span class="powered-by">THIS WEBSITE IS MADE BY SLOW AND THIS WEBSITE BE ONLY USED FOR MODERN FORMULA GHOST CLUB</span></p>
   </footer>
 
-  <!-- Script -->
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDKjvERjZEGVOkcBtlduUZFA6kRk6k-B18",
       authDomain: "modern-formula-ghost.firebaseapp.com",
       projectId: "modern-formula-ghost",
-      storageBucket: "modern-formula-ghost.appspot.com",
-      messagingSenderId: "456424596100",
       appId: "1:456424596100:web:556a3eeb39d8329aca98d1",
       measurementId: "G-JHDBDZ1YZ6"
     };
 
     firebase.initializeApp(firebaseConfig);
     const db = firebase.firestore();
-    const storage = firebase.storage();
 
-      function submitPost() {
-        const name = document.getElementById("name").value.trim();
-        const caption = document.getElementById("caption").value.trim();
-        const fileInput = document.getElementById("imageUpload");
-        const file = fileInput.files[0];
-      
-        if (!name || !caption || !file) {
-          alert("Please fill in all fields and select an image.");
-          console.warn("Missing field(s). Name:", name, "Caption:", caption, "File:", file);
-          return;
-        }
-      
-        const fileName = Date.now() + "_" + file.name;
-        const storageRef = storage.ref("images/" + fileName);
-      
-        console.log("Uploading:", fileName);
-      
-        storageRef.put(file)
-          .then(snapshot => {
-            console.log("Upload success:", snapshot);
-            return snapshot.ref.getDownloadURL();
-          })
-          .then(downloadURL => {
-            console.log("Download URL:", downloadURL);
-            return db.collection("posts").add({
-              name,
-              caption,
-              image: downloadURL,
-              createdAt: new Date()
-            });
-          })
-          .then(() => {
-            alert("Post uploaded!");
-            closeModal();
-            location.reload();
-          })
-          .catch(error => {
-            console.error("Upload failed:", error);
-            alert("Upload failed. Check console for details.");
-          });
+    const IMGUR_CLIENT_ID = "YOUR_IMGUR_CLIENT_ID"; // Replace with your actual Client ID
+
+    function submitPost() {
+      const name = document.getElementById("name").value.trim();
+      const caption = document.getElementById("caption").value.trim();
+      const file = document.getElementById("imageUpload").files[0];
+
+      if (!name || !caption || !file) {
+        alert("Please fill in all fields and select an image.");
+        return;
       }
 
-      const storageRef = storage.ref("images/" + Date.now() + "_" + file.name);
-      storageRef.put(file).then(snapshot => {
-        return snapshot.ref.getDownloadURL();
-      }).then(downloadURL => {
-        return db.collection("posts").add({
-          name,
-          caption,
-          image: downloadURL,
-          createdAt: new Date()
+      const reader = new FileReader();
+      reader.onload = function () {
+        const base64Image = reader.result.split(',')[1];
+
+        fetch("https://api.imgur.com/3/image", {
+          method: "POST",
+          headers: {
+            Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            image: base64Image,
+            type: "base64"
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          const imageUrl = data.data.link;
+          return db.collection("posts").add({
+            name,
+            caption,
+            image: imageUrl,
+            createdAt: new Date()
+          });
+        })
+        .then(() => {
+          alert("Post uploaded!");
+          closeModal();
+          location.reload();
+        })
+        .catch(error => {
+          console.error("Upload failed:", error);
+          alert("Imgur upload failed.");
         });
-      }).then(() => {
-        alert("Post uploaded!");
-        closeModal();
-        location.reload();
-      }).catch(error => {
-        console.error("Upload failed:", error);
-        alert("Upload failed.");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function loadFeed() {
+      const feed = document.getElementById("feed");
+      db.collection("posts").orderBy("createdAt", "desc").get().then(snapshot => {
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const postId = doc.id;
+          const post = document.createElement("div");
+          post.className = "feed-post";
+          post.innerHTML = `
+            <img src="${data.image}" alt="Drift photo" />
+            <p><strong>${data.name}</strong>: ${data.caption}</p>
+            <button class="delete-btn" onclick="deletePost('${postId}')">🗑️ Delete</button>
+          `;
+          feed.appendChild(post);
+        });
       });
+    }
+
+    function deletePost(id) {
+      if (confirm("Delete this post?")) {
+        db.collection("posts").doc(id).delete().then(() => {
+          alert("Deleted.");
+          location.reload();
+        });
+      }
+    }
+
+    function openModal() {
+      document.getElementById("uploadModal").style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("uploadModal").style.display = "none";
+    }
+
+    window.onclick = function (event) {
+      const modal = document.getElementById("uploadModal");
+      if (event.target === modal) {
+        modal.style.display = "none";
+      }
+    };
+
+    const videoElement = document.getElementById('bg-video');
+    const videoSources = [
+      'videos/RX7_film.mp4',
+      'videos/mountain meet.mp4',
+      'videos/repair.mp4'
+    ];
+    let currentIndex = 0;
+
+    function playNext() {
+      videoElement.src = videoSources[currentIndex];
+      videoElement.load();
+      videoElement.play();
+      currentIndex = (currentIndex + 1) % videoSources.length;
+      videoElement.onended = playNext;
+    }
+
+    playNext();
+
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("nav-links");
+
+    hamburger.addEventListener("click", () => {
+      navLinks.classList.toggle("open");
+    });
+
+    loadFeed();
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="/favicon_io/favicon-16x16.png" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modern Formula Ghost</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <video id="bg-video" autoplay muted loop>
+    <source src="videos/RX7_film.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <header class="navbar">
+    <div class="logo">
+      <img src="photos/mainlogo.svg" alt="Modern Formula Ghost Logo" />
+    </div>
+    <nav class="nav-links" id="nav-links">
+      <a href="#" onclick="openModal()">Upload</a>
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="Player-info/player_info.html">Player Info</a>
+      <a href="MFG FORM/form.html">Form</a>
+    </nav>
+    <div class="hamburger" id="hamburger">☰</div>
+  </header>
+
+  <div class="content">
+    <section id="home" class="section home-section">
+      <h1>Welcome to Modern Formula Ghost</h1>
+      <p>The top 1 drifting club in Car Parking Multiplayer.</p>
+    </section>
+
+    <div id="uploadModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Upload Post</h2>
+        <input type="text" id="name" placeholder="Your name" />
+        <input type="text" id="caption" placeholder="Caption..." />
+        <input type="file" id="imageUpload" accept="image/*" />
+        <button onclick="submitPost()">Post</button>
+      </div>
+    </div>
+
+    <div class="feed-grid" id="feed"></div>
+
+    <section id="about" class="section about-split">
+      <div class="about-left">
+        <img src="photos/mfglogo.svg" alt="Club Image" />
+      </div>
+      <div class="about-right">
+        <h2>About the Club</h2>
+        <p>
+          Modern Formula Ghost is a competitive drifting team in Car Parking Multiplayer.
+          We focus on precision, style, and teamwork. Whether it's tandem drifting or
+          showcasing your ride, our club lives for the thrill of controlled chaos.
+        </p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p id="tiktok">
+      Contact us:<br>
+      <a href="https://www.tiktok.com/@mfgteam" target="_blank">TIKTOK</a><br>
+      <a href="https://www.facebook.com/profile.php?id=61577144714826" target="_blank">FACEBOOK</a>
+    </p>
+    <p>© 2025 Modern Formula Ghost Team. All rights reserved.</p>
+    <p><span class="powered-by">THIS WEBSITE IS MADE BY SLOW AND THIS WEBSITE BE ONLY USED FOR MODERN FORMULA GHOST CLUB</span></p>
+  </footer>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyDKjvERjZEGVOkcBtlduUZFA6kRk6k-B18",
+      authDomain: "modern-formula-ghost.firebaseapp.com",
+      projectId: "modern-formula-ghost",
+      appId: "1:456424596100:web:556a3eeb39d8329aca98d1",
+      measurementId: "G-JHDBDZ1YZ6"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const IMGUR_CLIENT_ID = "YOUR_IMGUR_CLIENT_ID"; // Replace with your actual Client ID
+
+    function submitPost() {
+      const name = document.getElementById("name").value.trim();
+      const caption = document.getElementById("caption").value.trim();
+      const file = document.getElementById("imageUpload").files[0];
+
+      if (!name || !caption || !file) {
+        alert("Please fill in all fields and select an image.");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function () {
+        const base64Image = reader.result.split(',')[1];
+
+        fetch("https://api.imgur.com/3/image", {
+          method: "POST",
+          headers: {
+            Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            image: base64Image,
+            type: "base64"
+          })
+        })
+        .then(response => response.json())
+        .then(data => {
+          const imageUrl = data.data.link;
+          return db.collection("posts").add({
+            name,
+            caption,
+            image: imageUrl,
+            createdAt: new Date()
+          });
+        })
+        .then(() => {
+          alert("Post uploaded!");
+          closeModal();
+          location.reload();
+        })
+        .catch(error => {
+          console.error("Upload failed:", error);
+          alert("Imgur upload failed.");
+        });
+      };
+      reader.readAsDataURL(file);
     }
 
     function loadFeed() {
