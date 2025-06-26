@@ -52,7 +52,7 @@ body, html {
   color: #ff0000;
 }
 
-/* Hamburger icon (hidden on desktop) */
+/* Hide hamburger by default */
 .hamburger {
   display: none;
   font-size: 2rem;
@@ -60,14 +60,7 @@ body, html {
   cursor: pointer;
 }
 
-/* Responsive nav menu default */
-.nav-links {
-  display: flex;
-  align-items: center;
-  transition: max-height 0.3s ease-in-out;
-}
-
-/* Responsive behavior */
+/* Show hamburger on mobile (max width 768px) */
 @media (max-width: 768px) {
   .hamburger {
     display: block;
@@ -86,16 +79,20 @@ body, html {
     z-index: 999;
   }
 
-  .nav-links a {
+  .nav-links.open {
+    max-height: 400px;
+  }
+
+  .nav-links a,
+  .nav-links button {
     margin: 1rem 0;
     font-size: 1.2rem;
     padding: 0.5rem;
-  }
-
-  .nav-links.open {
-    max-height: 400px; /* Adjust if needed */
+    width: 100%;
+    text-align: center;
   }
 }
+
 
 /* Content Wrapper */
 .content {
