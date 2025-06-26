@@ -27,6 +27,13 @@ document.addEventListener("DOMContentLoaded", () => {
   hamburger.addEventListener("click", () => {
     navLinks.classList.toggle("open");
   });
+
+  // Collapse hamburger when any nav button or link is clicked
+  document.querySelectorAll("#nav-links a, #nav-links button").forEach(el => {
+    el.addEventListener("click", () => {
+      navLinks.classList.remove("open");
+    });
+  });
 });
 
 // Monitor auth state
