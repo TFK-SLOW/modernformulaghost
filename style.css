@@ -346,3 +346,36 @@ footer a:visited {
   margin-top: 1rem;
 }
 
+
+/* Common button style */
+.btn {
+  margin-left: 1rem;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Login/Sign-up: Green */
+.login-btn {
+  background-color: #28a745;
+  color: #fff;
+}
+.login-btn:hover {
+  background-color: #1e7e34;
+  transform: scale(1.05);
+}
+
+/* Logout: Red */
+.logout-btn {
+  background-color: #dc3545;
+  color: #fff;
+}
+.logout-btn:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+
