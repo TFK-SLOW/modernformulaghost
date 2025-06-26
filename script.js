@@ -17,9 +17,9 @@ let currentUser = null;
 // Monitor auth state
 auth.onAuthStateChanged(user => {
   currentUser = user;
-  const logoutBtn = document.querySelector("button[onclick='logout()']");
-  const loginBtn = document.querySelector("button[onclick='openLoginModal()']");
-  
+  const logoutBtn = document.querySelector(".logout-btn");
+  const loginBtn = document.querySelector(".login-btn");
+
   if (user) {
     console.log("Logged in as:", user.email);
     if (logoutBtn) logoutBtn.style.display = "inline-block";
@@ -88,8 +88,10 @@ function closeSignupModal() {
 window.addEventListener("click", function (event) {
   const loginModal = document.getElementById("loginModal");
   const signupModal = document.getElementById("signupModal");
+  const uploadModal = document.getElementById("uploadModal");
   if (event.target === loginModal) loginModal.style.display = "none";
   if (event.target === signupModal) signupModal.style.display = "none";
+  if (event.target === uploadModal) uploadModal.style.display = "none";
 });
 
 // Upload Modal control with auth check
@@ -160,16 +162,7 @@ function submitPost() {
   reader.readAsDataURL(file);
 }
 
-if (user) {
-  // Show logout, hide login
-  document.querySelector(".logout-btn").style.display = "inline-block";
-  document.querySelector(".login-btn").style.display = "none";
-} else {
-  // Hide logout, show login
-  document.querySelector(".logout-btn").style.display = "none";
-  document.querySelector(".login-btn").style.display = "inline-block";
-}
-
+// Reset password
 function resetPassword() {
   const email = document.getElementById("loginEmail").value.trim();
 
@@ -187,6 +180,7 @@ function resetPassword() {
     });
 }
 
+// Hamburger toggle for mobile
 document.addEventListener("DOMContentLoaded", () => {
   const hamburger = document.getElementById("hamburger");
   const navLinks = document.getElementById("nav-links");
@@ -195,15 +189,3 @@ document.addEventListener("DOMContentLoaded", () => {
     navLinks.classList.toggle("open");
   });
 });
-
-document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.getElementById("hamburger");
-  const navLinks = document.getElementById("nav-links");
-
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("open");
-  });
-});
-
-
-
