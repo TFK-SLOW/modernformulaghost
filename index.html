@@ -104,7 +104,7 @@
         fetch("https://api.imgur.com/3/image", {
           method: "POST",
           headers: {
-            Authorization: Client-ID ${IMGUR_CLIENT_ID},
+            Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
@@ -143,11 +143,11 @@
           const postId = doc.id;
           const post = document.createElement("div");
           post.className = "feed-post";
-          post.innerHTML = 
+          post.innerHTML = `
             <img src="${data.image}" alt="Drift photo" />
             <p><strong>${data.name}</strong>: ${data.caption}</p>
             <button class="delete-btn" onclick="deletePost('${postId}')">🗑️ Delete</button>
-          ;
+          `;
           feed.appendChild(post);
         });
       });
