@@ -162,6 +162,35 @@
       modal.style.display = "none";
     }
   };
+
+      const videoElement = document.getElementById('bg-video');
+  const videoSources = [
+    'videos/RX7_film.mp4',
+    'videos/mountain meet.mp4',
+    'videos/repair.mp4'
+  ];
+
+  let currentIndex = 0;
+
+  function playNext() {
+    videoElement.src = videoSources[currentIndex];
+    videoElement.load();
+    videoElement.play();
+
+    // Set up next index (looping back to 0 at the end)
+    currentIndex = (currentIndex + 1) % videoSources.length;
+
+    // Set up next video when this one ends
+    videoElement.onended = playNext;
+  }
+
+  playNext();
+
+  const hamburger = document.getElementById("hamburger");
+  const navLinks = document.getElementById("nav-links");
+
+  hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("open");
   </script>
 </body>
 </html>
