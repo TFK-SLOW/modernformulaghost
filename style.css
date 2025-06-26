@@ -375,4 +375,60 @@ footer a:visited {
   transform: scale(1.05);
 }
 
+/* Base nav styles */
+#nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Mobile menu hidden by default */
+@media (max-width: 768px) {
+  #nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    background-color: #111;
+    position: absolute;
+    top: 60px; /* Adjust depending on navbar height */
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    z-index: 999;
+  }
+
+  #nav-links.open {
+    display: flex;
+  }
+
+  #nav-links a,
+  #nav-links button {
+    padding: 12px;
+    text-align: left;
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+  }
+
+  #nav-links a:hover,
+  #nav-links button:hover {
+    background-color: #333;
+  }
+
+  #hamburger {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+  }
+}
+
+/* Desktop show nav links, hide hamburger */
+@media (min-width: 769px) {
+  #hamburger {
+    display: none;
+  }
+}
 
