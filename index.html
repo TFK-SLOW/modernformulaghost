@@ -63,6 +63,8 @@
     </section>
   </div>
 
+  <div id="toast-container"></div>
+
   <footer>
     <p id="tiktok">
       Contact us:<br>
@@ -93,7 +95,7 @@
       const file = document.getElementById("imageUpload").files[0];
 
       if (!name || !caption || !file) {
-        alert("Please fill in all fields and select an image.");
+        showToast("Please fill in all fields and select an image.");
         return;
       }
 
@@ -123,13 +125,13 @@
           });
         })
         .then(() => {
-          alert("Post uploaded!");
+          showToast("Post uploaded!");
           closeModal();
           location.reload();
         })
         .catch(error => {
           console.error("Upload failed:", error);
-          alert("Imgur upload failed.");
+          showToast("Imgur upload failed.");
         });
       };
       reader.readAsDataURL(file);
@@ -156,7 +158,7 @@
     function deletePost(id) {
       if (confirm("Delete this post?")) {
         db.collection("posts").doc(id).delete().then(() => {
-          alert("Deleted.");
+          showToast("Deleted.");
           location.reload();
         });
       }
@@ -203,6 +205,17 @@
     });
 
     loadFeed();
+
+    function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "toast";
+  toast.innerText = message;
+  document.getElementById("toast-container").appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, 3500); // Toast disappears after 3.5s
+}
   </script>
 </body>
 </html>
