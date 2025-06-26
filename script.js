@@ -170,3 +170,21 @@ if (user) {
   document.querySelector(".login-btn").style.display = "inline-block";
 }
 
+function resetPassword() {
+  const email = document.getElementById("loginEmail").value.trim();
+
+  if (!email) {
+    alert("Please enter your email address first.");
+    return;
+  }
+
+  auth.sendPasswordResetEmail(email)
+    .then(() => {
+      alert("Password reset email sent. Please check your inbox.");
+    })
+    .catch(error => {
+      alert(error.message);
+    });
+}
+
+
