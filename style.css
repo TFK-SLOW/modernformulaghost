@@ -432,3 +432,44 @@ footer a:visited {
   }
 }
 
+@media (max-width: 768px) {
+  #nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 0;
+    background-color: #111;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    z-index: 999;
+  }
+
+  #nav-links.open {
+    display: flex;
+  }
+
+  #nav-links a,
+  #nav-links button {
+    padding: 12px;
+    margin: 0.2rem 0;
+    text-align: center;
+    width: 100%;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    display: block;
+  }
+
+  #hamburger {
+    display: block;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: white;
+  }
+}
+
+
