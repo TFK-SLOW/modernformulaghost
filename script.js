@@ -14,6 +14,21 @@ const db = firebase.firestore();
 const ADMIN_EMAILS = ["kz.guira08@gmail.com"];
 let currentUser = null;
 
+// Ensure modals are hidden on page load
+document.addEventListener("DOMContentLoaded", () => {
+  ["loginModal", "signupModal", "uploadModal"].forEach(id => {
+    const modal = document.getElementById(id);
+    if (modal) modal.style.display = "none";
+  });
+
+  const hamburger = document.getElementById("hamburger");
+  const navLinks = document.getElementById("nav-links");
+
+  hamburger.addEventListener("click", () => {
+    navLinks.classList.toggle("open");
+  });
+});
+
 // Monitor auth state
 auth.onAuthStateChanged(user => {
   currentUser = user;
@@ -67,7 +82,7 @@ function logout() {
 
 // Modal controls
 function openLoginModal() {
-  document.getElementById("loginModal").style.display = "block";
+  document.getElementById("loginModal").style.display = "flex";
   closeSignupModal();
 }
 
@@ -77,7 +92,7 @@ function closeLoginModal() {
 
 function showSignup() {
   closeLoginModal();
-  document.getElementById("signupModal").style.display = "block";
+  document.getElementById("signupModal").style.display = "flex";
 }
 
 function closeSignupModal() {
@@ -100,7 +115,7 @@ function openModal() {
     openLoginModal();
     return;
   }
-  document.getElementById("uploadModal").style.display = "block";
+  document.getElementById("uploadModal").style.display = "flex";
 }
 
 function closeModal() {
@@ -179,13 +194,3 @@ function resetPassword() {
       alert(error.message);
     });
 }
-
-// Hamburger toggle for mobile
-document.addEventListener("DOMContentLoaded", () => {
-  const hamburger = document.getElementById("hamburger");
-  const navLinks = document.getElementById("nav-links");
-
-  hamburger.addEventListener("click", () => {
-    navLinks.classList.toggle("open");
-  });
-});
