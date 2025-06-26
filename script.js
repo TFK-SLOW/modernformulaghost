@@ -159,3 +159,14 @@ function submitPost() {
   };
   reader.readAsDataURL(file);
 }
+
+if (user) {
+  // Show logout, hide login
+  document.querySelector(".logout-btn").style.display = "inline-block";
+  document.querySelector(".login-btn").style.display = "none";
+} else {
+  // Hide logout, show login
+  document.querySelector(".logout-btn").style.display = "none";
+  document.querySelector(".login-btn").style.display = "inline-block";
+}
+
