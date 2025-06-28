@@ -163,9 +163,12 @@ function submitPost() {
     .then(res => res.json())
     .then(data => {
       const imageUrl = data.data.link;
-      displayImage(imageUrl); // <-- This line shows the uploaded image on screen
+      displayImage(imageUrl);
+    
+      const nameInput = document.getElementById("name").value.trim();
+    
       return db.collection("posts").add({
-        name: currentUser.email,
+        name: nameInput || currentUser.email, // ✅ Uses input value, fallback to email
         caption,
         image: imageUrl,
         createdAt: new Date(),
