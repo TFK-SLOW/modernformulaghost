@@ -209,3 +209,29 @@ function resetPassword() {
       alert(error.message);
     });
 }
+
+// Load posts from Firestore and show them on the page
+function loadPosts() {
+  db.collection("posts")
+    .orderBy("createdAt", "desc")
+    .get()
+    .then(snapshot => {
+      const feed = document.getElementById("feed");
+      feed.innerHTML = ""; // Clear old content
+      snapshot.forEach(doc => {
+        const post = doc.data();
+        const postDiv = document.createElement("div");
+        postDiv.classList.add("feed-post");
+        postDiv.innerHTML = `
+          <p><strong>${post.name}</strong></p>
+          <p>${post.caption}</p>
+          <img src="${post.image}" alt="User post" />
+        `;
+        feed.appendChild(postDiv);
+      });
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadPosts(); // Load all saved posts on page load
+});
