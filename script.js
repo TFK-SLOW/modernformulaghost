@@ -184,6 +184,13 @@ function submitPost() {
   reader.readAsDataURL(file);
 }
 
+const preview = document.getElementById('preview');
+
+// When your Imgur upload returns the URL:
+function displayImage(imgUrl) {
+  preview.innerHTML = `<img src="${imgUrl}" alt="Uploaded image">`;
+}
+
 // Reset password
 function resetPassword() {
   const email = document.getElementById("loginEmail").value.trim();
