@@ -211,6 +211,7 @@ function resetPassword() {
 }
 
 // Load posts from Firestore and show them on the page
+// Load posts from Firestore and show them on the page
 function loadPosts() {
   db.collection("posts")
     .orderBy("createdAt", "desc")
@@ -218,16 +219,36 @@ function loadPosts() {
     .then(snapshot => {
       const feed = document.getElementById("feed");
       feed.innerHTML = ""; // Clear old content
+
       snapshot.forEach(doc => {
         const post = doc.data();
         const postDiv = document.createElement("div");
         postDiv.classList.add("feed-post");
+
+        const canDelete = currentUser &&
+          (currentUser.uid === post.uid || ADMIN_EMAILS.includes(currentUser.email));
+
         postDiv.innerHTML = `
           <p><strong>${post.name}</strong></p>
           <p>${post.caption}</p>
           <img src="${post.image}" alt="User post" />
+          ${canDelete ? `<button class="delete-btn" data-id="${doc.id}">Delete</button>` : ""}
         `;
+
         feed.appendChild(postDiv);
+
+        // Handle delete button click
+        const deleteBtn = postDiv.querySelector(".delete-btn");
+        if (deleteBtn) {
+          deleteBtn.addEventListener("click", () => {
+            if (confirm("Are you sure you want to delete this post?")) {
+              db.collection("posts").doc(doc.id).delete().then(() => {
+                alert("Post deleted.");
+                loadPosts(); // Refresh the feed
+              });
+            }
+          });
+        }
       });
     });
 }
