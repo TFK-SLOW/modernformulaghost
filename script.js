@@ -163,6 +163,7 @@ function submitPost() {
     .then(res => res.json())
     .then(data => {
       const imageUrl = data.data.link;
+      displayImage(imageUrl); // <-- This line shows the uploaded image on screen
       return db.collection("posts").add({
         name: currentUser.email,
         caption,
