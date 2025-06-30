@@ -146,15 +146,24 @@
         card.style.display = card.textContent.toLowerCase().includes(query) ? "flex" : "none";
       });
     });
+
+  const { error: dbError } = await supabase.from('players').insert([{
+    ign,
+    drivetrain,
+    rank,
+    player_id: playerId,
+    photo_url: photoURL
+  }]);
+  
+  if (dbError) {
+    console.error("DB Insert Error:", dbError);
+    alert("Save failed: " + (dbError.message || "Unknown error"));
+    return;
+  }
+  console.log("Insert data: ", { ign, drivetrain, rank, playerId, photoURL });
   
     // Load players on page load
     loadPlayers();
-
-      if (dbError) {
-  console.error("DB Insert Error:", dbError);
-  alert("Save failed. Check console for details.");
-  return;
-}
   </script>
 </body>
 </html>
