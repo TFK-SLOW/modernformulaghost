@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js"></script>
   <link rel="icon" href="../favicon_io/favicon-16x16.png" type="image/x-icon">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,451 +25,28 @@
 
     <!-- Navigation links -->
     <nav class="nav-links">
+      <button id="uploadBtn" class="upload-btn">Upload Player</button>
       <a href="../index.html">Home</a>
       <a href="../MFG FORM/form.html">Form</a>
     </nav>
   </header>
 
-    <main class="player-grid">
-      <!-- Repeat this .player-card 12x -->
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: BUNTA</h3>
-      <p>Drive Train: AWD/RWD</p>
-      <p>Clan Rank: SENAPI</p>
-      <p>Player ID: IC622032</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: GLAD</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND/ADMIN</p>
-      <p>Player ID: LZ536282</p>
+  <div id="uploadModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>Upload Player Info</h2>
+      <form id="playerForm">
+        <input type="text" id="ign" placeholder="IGN" required />
+        <input type="text" id="drivetrain" placeholder="Drive Train (RWD/AWD)" required />
+        <input type="text" id="rank" placeholder="Clan Rank" required />
+        <input type="text" id="playerId" placeholder="Player ID" required />
+        <input type="file" id="photo" accept="image/*" required />
+        <button type="submit">Submit</button>
+      </form>
     </div>
   </div>
 
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: HALE</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank:  GHOST ELITE/ADMIN</p>
-      <p>Player ID: TE526845</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: YAN</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE/ADMIN</p>
-      <p>Player ID: ZV033233</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: MONDAY</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST/ADMIN</p>
-      <p>Player ID: YD574050</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: RYUUU</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE/ADMIN</p>
-      <p>Player ID: KQ3766612</p>
-    </div>
-  </div>
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: SLOW</h3>
-      <p>Drive Train: AWD/RWD</p>
-      <p>Clan Rank: GHOST LEGEND/ADMIN</p>
-      <p>Player ID: SLOWCPM01</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: SSUT</h3>
-      <p>Drive Train: AWD/RWD</p>
-      <p>Clan Rank: GHOST ELITE/ADMIIN</p>
-      <p>Player ID: UE486302</p>
-    </div>
-  </div>
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: NASH</h3>
-      <p>Drive Train: AWD/RWD</p>
-      <p>Clan Rank: GHOST LEGEND/ADMIN</p>
-      <p>Player ID: RI781727</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: BUNSO</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE/ADMIN</p>
-      <p>Player ID: ZK5220506</p>
-    </div>
-  </div>
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: AJDM</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND/ADMIN</p>
-      <p>Player ID: JC722525</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: CLARKZ</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND/ADMIN</p>
-      <p>Player ID: RW334750</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: KEYCID</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND</p>
-      <p>Player ID: FS053304</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: HOTDOG</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND</p>
-      <p>Player ID: JZ671647</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: TOKYO</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND</p>
-      <p>Player ID: MAYEN</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: DARKPH</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND</p>
-      <p>Player ID: BN632062</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: FITA</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND</p>
-      <p>Player ID: GH050258</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: ZERK</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND</p>
-      <p>Player ID: KN228011</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: RYO</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND</p>
-      <p>Player ID: RD275317</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: YUDS</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST LEGEND</p>
-      <p>Player ID: PAWPAW</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: EY RA</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE</p>
-      <p>Player ID: UV028000</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: HUPIA</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE</p>
-      <p>Player ID: YW732472</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: CHEL</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE</p>
-      <p>Player ID: FF877837</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: MARKO</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE</p>
-      <p>Player ID: HG245681</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: ZEGGY</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE</p>
-      <p>Player ID: BK513084</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: ECKS</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE</p>
-      <p>Player ID: HU020301</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: CHOWKIE</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST ELITE</p>
-      <p>Player ID: </p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: CED</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: BX358230</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: TOKITA</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: QA737655</p>
-    </div>
-  </div>
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: TORU</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: VI237545</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: KAIJI</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: FH486708</p>
-    </div>
-  </div>
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: KIT</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: BOSSINGK</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: FLUXX</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: GI784548</p>
-    </div>
-  </div>
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: AIDEN</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: NA536137</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: TAKUMI</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: QF384460</p>
-    </div>
-  </div>
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: AKIRA</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: AY250583</p>
-    </div>
-  </div>
-
-  <div class="player-card">
-    <div class="player-img">
-      <img src="../player-photo/Unknown_person.jpg" alt="Player Character" />
-    </div>
-    <div class="player-info">
-      <h3>IGN: LÜTZOW</h3>
-      <p>Drive Train: RWD</p>
-      <p>Clan Rank: GHOST</p>
-      <p>Player ID: UV044307</p>
-    </div>
-  </div>
-
-
+  <main class="player-grid" id="playerContainer"></main>
 
   <footer>
     <p id="tiktok">Contact us:<br><a href="https://www.tiktok.com/@mfgteam?is_from_webapp=1&sender_device=pc" target="_blank">TIKTOK</a><br><a href="https://www.facebook.com/profile.php?id=61577144714826" target="_blank">FACEBOOK</a></p>
@@ -478,6 +58,50 @@
      
   </main>
   <script>
+  // Your Firebase config
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "SENDER_ID",
+    appId: "APP_ID"
+  };
+
+  // Init Firebase
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+
+  // Modal control
+  const modal = document.getElementById("uploadModal");
+  document.getElementById("uploadBtn").onclick = () => modal.style.display = "block";
+  document.querySelector(".close").onclick = () => modal.style.display = "none";
+  window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
+
+  // Form submission
+  document.getElementById("playerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const ign = document.getElementById("ign").value;
+    const drivetrain = document.getElementById("drivetrain").value;
+    const rank = document.getElementById("rank").value;
+    const playerId = document.getElementById("playerId").value;
+    const photo = document.getElementById("photo").files[0];
+
+    const storageRef = storage.ref('players/' + Date.now() + '_' + photo.name);
+    await storageRef.put(photo);
+    const photoURL = await storageRef.getDownloadURL();
+
+    await db.collection("players").add({
+      ign, drivetrain, rank, playerId, photoURL,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    alert("Player added!");
+    modal.style.display = "none";
+    document.getElementById("playerForm").reset();
+    location.reload(); // refresh to display new player
+  });
   const searchInput = document.getElementById("searchInput");
   const playerCards = document.querySelectorAll(".player-card");
 
