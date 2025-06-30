@@ -149,6 +149,12 @@
   
     // Load players on page load
     loadPlayers();
+
+      if (dbError) {
+  console.error("DB Insert Error:", dbError);
+  alert("Save failed. Check console for details.");
+  return;
+}
   </script>
 </body>
 </html>
