@@ -146,7 +146,7 @@
         card.style.display = card.textContent.toLowerCase().includes(query) ? "flex" : "none";
       });
     });
-
+  console.log("Insert data: ", { ign, drivetrain, rank, playerId, photoURL });
   const { error: dbError } = await supabase.from('players').insert([{
     ign,
     drivetrain,
@@ -160,7 +160,6 @@
     alert("Save failed: " + (dbError.message || "Unknown error"));
     return;
   }
-  console.log("Insert data: ", { ign, drivetrain, rank, playerId, photoURL });
   
     // Load players on page load
     loadPlayers();
