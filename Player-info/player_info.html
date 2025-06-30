@@ -154,6 +154,17 @@
     player_id: playerId,
     photo_url: photoURL
   }]);
+
+
+  console.log("Insert data: ", { ign, drivetrain, rank, playerId, photoURL });
+  
+  const { error: dbError } = await supabase.from('players').insert([{
+    ign,
+    drivetrain,
+    rank,
+    player_id: playerId,
+    photo_url: photoURL
+  }]);
   
   if (dbError) {
     console.error("DB Insert Error:", dbError);
