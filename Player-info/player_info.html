@@ -157,8 +157,7 @@
 
 
   console.log("Insert data: ", { ign, drivetrain, rank, playerId, photoURL });
-  
-  const { error: dbError } = await supabase.from('players').insert([{
+  const { error: insertError } = await supabase.from('players').insert([{
     ign,
     drivetrain,
     rank,
@@ -166,9 +165,9 @@
     photo_url: photoURL
   }]);
   
-  if (dbError) {
-    console.error("DB Insert Error:", dbError);
-    alert("Save failed: " + (dbError.message || "Unknown error"));
+  if (insertError) {
+    console.error("Insert Error:", insertError);
+    alert("Save failed: " + (insertError.message || "Unknown error"));
     return;
   }
   
