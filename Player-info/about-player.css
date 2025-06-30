@@ -9,9 +9,10 @@ body {
   height: 100%;
   font-family: 'Segoe UI', sans-serif;
   color: #fff;
+  background-color: black;
 }
 
-/* Background Image */
+/* Background Layers */
 .background-layer {
   background-color: black;
   position: fixed;
@@ -28,13 +29,12 @@ body {
   left: 0;
   height: 100vh;
   width: 100vw;
-  background-image: url('../MFG FORM/mfg.jpg'); /* or your actual image path */
-  background-size: contain; /* Ensure the whole image fits */
+  background-image: url('../MFG FORM/mfg.jpg');
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   z-index: -1;
   filter: blur(8px);
-  background-color: black; /* Fallback background */
 }
 
 /* Navbar */
@@ -50,26 +50,19 @@ body {
   z-index: 1000;
 }
 
-.navbar .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #ff0000;
+.navbar .logo img {
+  height: 50px;
+  width: auto;
 }
 
-.nav-links a {
-  margin-left: 2rem;
-  text-decoration: none;
-  color: #fff;
-  transition: color 0.3s;
-}
-
-.nav-links a:hover {
-  color: #ff0000;
+.search-container {
+  flex-grow: 1;
+  margin: 0 2rem;
+  max-width: 300px;
 }
 
 #searchInput {
   width: 100%;
-  max-width: 300px;
   padding: 8px 12px;
   border: none;
   border-radius: 6px;
@@ -84,6 +77,94 @@ body {
   color: #aaa;
 }
 
+.nav-links a {
+  margin-left: 2rem;
+  text-decoration: none;
+  color: #fff;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover {
+  color: #ff0000;
+}
+
+/* Upload Button */
+.upload-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  padding: 10px 20px;
+  background: #0f0f0f;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 0 10px #ff0000;
+  transition: background 0.3s;
+}
+
+.upload-btn:hover {
+  background: #1a1a1a;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content {
+  background: #121212;
+  color: white;
+  max-width: 400px;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 15px #ff0000;
+}
+
+.modal-content input,
+.modal-content button {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+}
+
+.modal-content input {
+  background: #222;
+  color: white;
+  border: 1px solid #444;
+}
+
+.modal-content button {
+  background: #ff0000;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.modal-content button:hover {
+  background: #cc0000;
+}
+
+.close {
+  float: right;
+  cursor: pointer;
+  font-size: 24px;
+  color: white;
+}
+
+/* Player Grid */
 .player-grid {
   display: grid;
   gap: 2rem;
@@ -131,14 +212,7 @@ body {
   margin: 0.25rem 0;
 }
 
-.logo img {
-  height: 60px; /* Adjust height as needed */
-  width: auto;
-  display: block;
-}
-
-
-/*footer*/
+/* Footer */
 footer {
   width: 100%;
   text-align: center;
@@ -170,56 +244,4 @@ footer a:hover {
 
 footer a:visited {
   color: red;
-}
-
-.upload-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  padding: 10px 20px;
-  background: #0f0f0f;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  z-index: 1000;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0,0,0,0.7);
-}
-
-.modal-content {
-  background: white;
-  max-width: 400px;
-  margin: 10% auto;
-  padding: 20px;
-  border-radius: 15px;
-  text-align: center;
-}
-
-.modal-content input {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-}
-
-.modal-content button {
-  background: #333;
-  color: white;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-}
-
-.close {
-  float: right;
-  cursor: pointer;
-  font-size: 24px;
 }
