@@ -65,19 +65,23 @@
     <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
   
+    // --- Supabase Config ---
     const SUPABASE_URL = 'https://kutsenbuwxhyzldcmiog.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1dHNlbmJ1d3hoeXpsZGNtaW9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyNjk5NjIsImV4cCI6MjA2Njg0NTk2Mn0.dFYSvzCKmkD0B1QQWJHQw6dV__uUtVjZOX6UEGEu3J8';
-    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY); // Renamed to avoid naming collision
+    const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   
+    // --- Modal Controls ---
     const uploadBtn = document.getElementById("uploadBtn");
     const modal = document.getElementById("uploadModal");
     const closeBtn = document.querySelector(".close");
   
     uploadBtn.onclick = () => modal.style.display = "block";
     closeBtn.onclick = () => modal.style.display = "none";
-    window.onclick = e => { if (e.target == modal) modal.style.display = "none"; };
+    window.onclick = (e) => {
+      if (e.target === modal) modal.style.display = "none";
+    };
   
-    // Submit Form
+    // --- Handle Form Submission ---
     document.getElementById("playerForm").addEventListener("submit", async (e) => {
       e.preventDefault();
   
@@ -87,35 +91,51 @@
       const playerId = document.getElementById("playerId").value.trim();
       const photoFile = document.getElementById("photo").files[0];
   
-      if (!photoFile) return alert("Please upload a player image.");
+      if (!ign || !drivetrain || !rank || !playerId || !photoFile) {
+        return alert("Please fill in all fields and upload a player image.");
+      }
   
       const ext = photoFile.name.split('.').pop();
       const fileName = `${Date.now()}_${ign.replace(/\s+/g, "_")}.${ext}`;
       const filePath = `players/${fileName}`;
   
+      // Upload Image to Supabase Storage
       const { error: uploadError } = await db.storage.from('players').upload(filePath, photoFile);
-      if (uploadError) return alert("Image upload failed: " + uploadError.message);
+      if (uploadError) {
+        console.error("Image Upload Error:", uploadError);
+        return alert("Image upload failed: " + uploadError.message);
+      }
   
+      // Get Public Image URL
       const { data: publicUrlData } = db.storage.from('players').getPublicUrl(filePath);
       const photoURL = publicUrlData.publicUrl;
   
-      const { error: dbError } = await db.from('players').insert([{
-        ign, drivetrain, rank, player_id: playerId, photo_url: photoURL
+      // Insert Data to Database
+      const { error: insertError } = await db.from('players').insert([{
+        ign,
+        drivetrain,
+        rank,
+        player_id: playerId,
+        photo_url: photoURL
       }]);
   
-      if (dbError) return alert("Save failed: " + dbError.message);
+      if (insertError) {
+        console.error("Database Insert Error:", insertError);
+        return alert("Save failed: " + insertError.message);
+      }
   
-      alert("Player uploaded!");
+      alert("Player uploaded successfully!");
       document.getElementById("playerForm").reset();
       modal.style.display = "none";
-      loadPlayers(); // refresh list
+      loadPlayers();
     });
   
-    // Load Players
+    // --- Load Players ---
     async function loadPlayers() {
-      const { data, error } = await db.from('players').select('*').order('created_at', { ascending: false });
       const container = document.getElementById("playerContainer");
       container.innerHTML = "";
+  
+      const { data, error } = await db.from('players').select('*').order('created_at', { ascending: false });
   
       if (error) {
         console.error("Load Error:", error);
@@ -127,7 +147,7 @@
         const card = document.createElement("div");
         card.className = "player-card";
         card.innerHTML = `
-          <div class="player-img"><img src="${player.photo_url}" alt="Player" /></div>
+          <div class="player-img"><img src="${player.photo_url}" alt="Player Image" /></div>
           <div class="player-info">
             <h3>IGN: ${player.ign}</h3>
             <p>Drive Train: ${player.drivetrain}</p>
@@ -139,39 +159,16 @@
       });
     }
   
-    // Search Function
+    // --- Search ---
     document.getElementById("searchInput").addEventListener("input", function () {
       const query = this.value.toLowerCase();
       document.querySelectorAll(".player-card").forEach(card => {
-        card.style.display = card.textContent.toLowerCase().includes(query) ? "flex" : "none";
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(query) ? "flex" : "none";
       });
     });
-  console.log("Insert data: ", { ign, drivetrain, rank, playerId, photoURL });
-  const { error: dbError } = await supabase.from('players').insert([{
-    ign,
-    drivetrain,
-    rank,
-    player_id: playerId,
-    photo_url: photoURL
-  }]);
-
-
-  console.log("Insert data: ", { ign, drivetrain, rank, playerId, photoURL });
-  const { error: insertError } = await supabase.from('players').insert([{
-    ign,
-    drivetrain,
-    rank,
-    player_id: playerId,
-    photo_url: photoURL
-  }]);
   
-  if (insertError) {
-    console.error("Insert Error:", insertError);
-    alert("Save failed: " + (insertError.message || "Unknown error"));
-    return;
-  }
-  
-    // Load players on page load
+    // --- Initial Load ---
     loadPlayers();
   </script>
 </body>
