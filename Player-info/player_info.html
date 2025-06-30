@@ -147,7 +147,7 @@
         const card = document.createElement("div");
         card.className = "player-card";
         card.innerHTML = `
-          <div class="player-img"><img src="${player.photo_url}" alt="Player Image" /></div>
+          <div class="player-img"><img src="${player.photo_url}" alt="Player" /></div>
           <div class="player-info">
             <h3>IGN: ${player.ign}</h3>
             <p>Drive Train: ${player.drivetrain}</p>
@@ -167,7 +167,7 @@
         card.style.display = text.includes(query) ? "flex" : "none";
       });
     });
-  
+    console.log("Loaded players:", data);
     // --- Initial Load ---
     loadPlayers();
   </script>
