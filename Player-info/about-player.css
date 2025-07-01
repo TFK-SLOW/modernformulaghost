@@ -50,6 +50,34 @@ body {
   z-index: 1000;
 }
 
+.left-nav a,
+.right-nav a,
+.upload-btn {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 500;
+}
+
+.left-nav {
+  display: flex;
+  align-items: center;
+}
+
+.right-nav {
+  display: flex;
+  align-items: center;
+}
+
+.upload-btn {
+  background-color: #0f0f0f;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
 .navbar .logo img {
   height: 50px;
   width: auto;
