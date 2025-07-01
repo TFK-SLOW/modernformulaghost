@@ -249,8 +249,27 @@ footer a:visited {
 
 .player-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  margin-top: 2rem;
   padding: 2rem;
+  grid-template-columns: 1fr; /* default: 1 column for mobile */
+}
+
+@media (min-width: 768px) {
+  .player-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets and up */
+  }
+}
+
+.delete-btn {
+  margin-top: 10px;
+  padding: 6px 12px;
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #e60000;
 }
