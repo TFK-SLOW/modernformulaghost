@@ -1,4 +1,4 @@
-// player_script.js
+""// player_script.js
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js';
@@ -14,14 +14,14 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 const SUPABASE_URL = 'https://kutsenbuwxhyzldcmiog.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1dHNlbmJ1d3hoeXpsZGNtaW9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyNjk5NjIsImV4cCI6MjA2Njg0NTk2Mn0.dFYSvzCKmkD0B1QQWJHQw6dV__uUtVjZOX6UEGEu3J8'; // Truncated for safety
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1dHNlbmJ1d3hoeXpsZGNtaW9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyNjk5NjIsImV4cCI6MjA2Njg0NTk2Mn0.dFYSvzCKmkD0B1QQWJHQw6dV__uUtVjZOX6UEGEu3J8';
 const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 const uploadBtn = document.getElementById("uploadBtn");
 const modal = document.getElementById("uploadModal");
 const closeBtn = document.querySelector(".close");
 
-uploadBtn.onclick = () => modal.style.display = "block";
+uploadBtn.onclick = () => modal.style.display = "flex";
 closeBtn.onclick = () => modal.style.display = "none";
 window.onclick = (e) => { if (e.target === modal) modal.style.display = "none"; };
 
@@ -86,10 +86,8 @@ export async function loadPlayers() {
   });
 }
 
-// Call after page load
 window.addEventListener("DOMContentLoaded", loadPlayers);
 
-// Search
 const searchInput = document.getElementById("searchInput");
 if (searchInput) {
   searchInput.addEventListener("input", function () {
@@ -100,42 +98,34 @@ if (searchInput) {
   });
 }
 
-// Delegate click event to delete buttons
 document.addEventListener("click", async (e) => {
   if (e.target.classList.contains("delete-btn")) {
     const playerId = e.target.dataset.id;
     const imgUrl = e.target.dataset.img;
-    const filePath = imgUrl.split("/").slice(-1)[0]; // extract filename
+    const filePath = imgUrl.split("/").slice(-1)[0];
 
-    // Confirm delete
     if (!confirm("Are you sure you want to delete this player?")) return;
 
-    // Delete from DB
     const { error: dbError } = await db.from("players").delete().eq("id", playerId);
     if (dbError) return alert("Database delete error: " + dbError.message);
 
-    // Delete image from storage
     const { error: storageError } = await db.storage.from("players").remove([`players/${filePath}`]);
     if (storageError) return alert("Image delete error: " + storageError.message);
 
     alert("Player deleted!");
-    loadPlayers(); // refresh UI
+    loadPlayers();
   }
 });
+
+let currentUser = null;
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // Firebase user is signed in
     console.log("Logged in as:", user.email);
-
-    // You can store user.uid in a variable to match with Supabase `owner_id`
     currentUser = user;
-
-    // Optional: Load players only if logged in
     loadPlayers();
   } else {
     console.log("No user signed in");
-    window.location.href = "/login.html"; // or show guest mode
+    window.location.href = "/login.html";
   }
 });
-
