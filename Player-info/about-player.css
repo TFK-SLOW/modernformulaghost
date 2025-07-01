@@ -12,6 +12,20 @@ body {
   background-color: black;
 }
 
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-image: url('mfg.jpg'); /* <- Replace this with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1; /* Make sure it stays behind all content */
+  filter: blur(8px); /* Optional: remove if you don't want blur */
+}
+
 /* Background Layers */
 .background-layer {
   background-color: black;
