@@ -91,4 +91,5 @@ document.getElementById("searchInput").addEventListener("input", function() {
 });
 
 // Initial load
+console.log("Loaded players:", data);
 loadPlayers();
