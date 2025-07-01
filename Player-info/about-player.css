@@ -69,15 +69,6 @@ body {
   align-items: center;
 }
 
-.upload-btn {
-  background-color: #0f0f0f;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
 .navbar .logo img {
   height: 50px;
   width: auto;
@@ -118,18 +109,15 @@ body {
 
 /* Upload Button */
 .upload-btn {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  padding: 10px 20px;
-  background: #0f0f0f;
+  background-color: #0f0f0f;
   color: white;
   border: none;
-  border-radius: 10px;
+  padding: 8px 16px;
+  border-radius: 6px;
   cursor: pointer;
-  z-index: 1000;
   box-shadow: 0 0 10px #ff0000;
   transition: background 0.3s;
+  margin-left: 1rem;
 }
 
 .upload-btn:hover {
