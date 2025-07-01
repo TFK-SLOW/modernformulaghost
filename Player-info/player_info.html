@@ -3,27 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Player Info - Modern Formula Ghost</title>
+  <title>Player Info – Modern Formula Ghost</title>
   <link rel="stylesheet" href="about-player.css" />
-  <link rel="icon" href="../favicon_io/favicon-16x16.png" type="image/x-icon">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body>
-
-  <!-- Background Layers -->
   <div class="background-layer"></div>
   <div class="background"></div>
 
-  <!-- Header/Navbar -->
   <header class="navbar">
-    <div class="logo">
-      <a href="../index.html"><img src="../photos/mainlogo.svg" alt="Logo" /></a>
-    </div>
-
+    <div class="logo"><img src="../photos/mainlogo.svg" alt="Logo"></div>
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="Search IGN..." />
     </div>
-
     <nav class="nav-links">
       <button id="uploadBtn" class="upload-btn">Upload Player</button>
       <a href="../index.html">Home</a>
@@ -31,7 +22,6 @@
     </nav>
   </header>
 
-  <!-- Upload Modal -->
   <div id="uploadModal" class="modal">
     <div class="modal-content">
       <span class="close">&times;</span>
@@ -47,129 +37,18 @@
     </div>
   </div>
 
-  <!-- Player Cards Grid -->
-  <main class="player-grid" id="playerContainer"></main>
+  <main id="playerContainer" class="player-grid"></main>
 
-  <!-- Footer -->
   <footer>
-    <p id="tiktok">
+    <p>
       Contact us:<br>
-      <a href="https://www.tiktok.com/@mfgteam?is_from_webapp=1&sender_device=pc" target="_blank">TIKTOK</a><br>
+      <a href="https://www.tiktok.com/@mfgteam" target="_blank">TIKTOK</a><br>
       <a href="https://www.facebook.com/profile.php?id=61577144714826" target="_blank">FACEBOOK</a>
     </p>
     <p>© 2025 Modern Formula Ghost Team. All rights reserved.</p>
     <p><span class="powered-by">THIS WEBSITE IS MADE BY SLOW AND THIS WEBSITE BE ONLY USED FOR MODERN FORMULA GHOST CLUB</span></p>
   </footer>
 
-  <!-- Supabase & Modal Scripts -->
-<script type="module">
-  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-  // --- Supabase Config ---
-  const SUPABASE_URL = 'https://kutsenbuwxhyzldcmiog.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1dHNlbmJ1d3hoeXpsZGNtaW9nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTEyNjk5NjIsImV4cCI6MjA2Njg0NTk2Mn0.dFYSvzCKmkD0B1QQWJHQw6dV__uUtVjZOX6UEGEu3J8';
-  const db = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  // --- Modal Controls ---
-  const uploadBtn = document.getElementById("uploadBtn");
-  const modal = document.getElementById("uploadModal");
-  const closeBtn = document.querySelector(".close");
-
-  uploadBtn.onclick = () => modal.style.display = "block";
-  closeBtn.onclick = () => modal.style.display = "none";
-  window.onclick = (e) => {
-    if (e.target === modal) modal.style.display = "none";
-  };
-
-  // --- Handle Form Submission ---
-  document.getElementById("playerForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const ign = document.getElementById("ign").value.trim();
-    const drivetrain = document.getElementById("drivetrain").value.trim();
-    const rank = document.getElementById("rank").value.trim();
-    const playerId = document.getElementById("playerId").value.trim();
-    const photoFile = document.getElementById("photo").files[0];
-
-    if (!ign || !drivetrain || !rank || !playerId || !photoFile) {
-      return alert("Please fill in all fields and upload a player image.");
-    }
-
-    const ext = photoFile.name.split('.').pop();
-    const fileName = `${Date.now()}_${ign.replace(/\s+/g, "_")}.${ext}`;
-    const filePath = `players/${fileName}`;
-
-    // Upload Image to Supabase Storage
-    const { error: uploadError } = await db.storage.from('players').upload(filePath, photoFile);
-    if (uploadError) {
-      console.error("Image Upload Error:", uploadError);
-      return alert("Image upload failed: " + uploadError.message);
-    }
-
-    // Get Public Image URL
-    const { data: publicUrlData } = db.storage.from('players').getPublicUrl(filePath);
-    const photoURL = publicUrlData.publicUrl;
-
-    // Insert Data to Database
-    const { error: insertError } = await db.from('players').insert([{
-      ign,
-      drivetrain,
-      rank,
-      player_id: playerId,
-      photo_url: photoURL
-    }]);
-
-    if (insertError) {
-      console.error("Database Insert Error:", insertError);
-      return alert("Save failed: " + insertError.message);
-    }
-
-    alert("Player uploaded successfully!");
-    document.getElementById("playerForm").reset();
-    modal.style.display = "none";
-    loadPlayers();
-  });
-
-  // --- Load Players ---
-  async function loadPlayers() {
-    const container = document.getElementById("playerContainer");
-    container.innerHTML = "";
-
-    const { data, error } = await db.from('players').select('*').order('created_at', { ascending: false });
-
-    if (error) {
-      console.error("Load Error:", error);
-      container.innerHTML = "<p>Failed to load players.</p>";
-      return;
-    }
-
-    data.forEach(player => {
-      const card = document.createElement("div");
-      card.className = "player-card";
-      card.innerHTML = `
-        <div class="player-img"><img src="${player.photo_url}" alt="Player" /></div>
-        <div class="player-info">
-          <h3>IGN: ${player.ign}</h3>
-          <p>Drive Train: ${player.drivetrain}</p>
-          <p>Clan Rank: ${player.rank}</p>
-          <p>Player ID: ${player.player_id}</p>
-        </div>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  // --- Search ---
-  document.getElementById("searchInput").addEventListener("input", function () {
-    const query = this.value.toLowerCase();
-    document.querySelectorAll(".player-card").forEach(card => {
-      const text = card.textContent.toLowerCase();
-      card.style.display = text.includes(query) ? "flex" : "none";
-    });
-  });
-
-  // --- Initial Load ---
-  loadplayers();
-</script>
+  <script type="module" src="player_info.js"></script>
 </body>
 </html>
