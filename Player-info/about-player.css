@@ -316,3 +316,36 @@ footer a:visited {
   font-size: 24px;
   cursor: pointer;
 }
+
+footer {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.8);
+  margin-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+.powered-by {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+footer a {
+  color: #ff0000;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+footer a:hover {
+  color: #00ffee;
+}
+
+footer a:visited {
+  color: red;
+}
