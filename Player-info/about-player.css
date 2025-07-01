@@ -136,32 +136,50 @@ body {
   background: #1a1a1a;
 }
 
-/* Modal */
+/* Navbar layout */
+.navbar {
+  display: flex; justify-content: space-between; align-items: center;
+  background: rgba(0,0,0,0.7); padding: 1rem 2rem; position: sticky; top: 0; z-index: 1000;
+}
+.left-nav, .right-nav {
+  display: flex; align-items: center;
+}
+.left-nav a, .right-nav a, .upload-btn {
+  margin-right: 1rem; color: #fff; text-decoration: none;
+}
+.upload-btn {
+  padding: 8px 16px; background: #222; border: none; border-radius: 6px; cursor: pointer;
+}
+.upload-btn:hover, .right-nav a:hover { color: #ff0; }
 
-.modal-content input,
+/* Grid for player cards */
+.player-grid {
+  display: grid; gap: 2rem; padding: 2rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .player-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+/* Modal styling */
+.modal {
+  display: none; position: fixed; top: 0; left: 0;
+  width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+  justify-content: center; align-items: center; z-index: 1001;
+}
+.modal-content {
+  background: #fff; padding: 2rem; border-radius: 10px;
+  max-width: 400px; width: 90%; position: relative;
+}
+.modal-content .close {
+  position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer;
+}
+.modal-content input, .modal-content button {
+  width: 100%; padding: 10px; margin-top: 1rem;
+  border-radius: 6px; border: 1px solid #ccc;
+}
 .modal-content button {
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-}
-
-.modal-content input {
-  background: #222;
-  color: white;
-  border: 1px solid #444;
-}
-
-.modal-content button {
-  background: #ff0000;
-  color: white;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.modal-content button:hover {
-  background: #cc0000;
+  background: #333; color: #fff; border: none; cursor: pointer;
 }
 
 .close {
@@ -279,39 +297,6 @@ footer a:visited {
 
 .delete-btn:hover {
   background: #e60000;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1001;
-  left: 0; top: 0;
-  width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-}
-
-.modal-content {
-  background: white;
-  color: black;
-  max-width: 400px;
-  margin: 10% auto;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.modal-content input {
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-}
-
-.modal-content button {
-  background: #333;
-  color: white;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
 }
 
 .close-login {
