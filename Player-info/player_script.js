@@ -67,6 +67,7 @@ export async function loadPlayers() {
         <p>Drive Train: ${player.drivetrain}</p>
         <p>Clan Rank: ${player.rank}</p>
         <p>Player ID: ${player.player_id}</p>
+        <button class="delete-btn" data-id="${player.id}" data-img="${player.photo_url}">Delete</button>
       </div>
     `;
     container.appendChild(card);
@@ -86,3 +87,27 @@ if (searchInput) {
     });
   });
 }
+
+// Delegate click event to delete buttons
+document.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("delete-btn")) {
+    const playerId = e.target.dataset.id;
+    const imgUrl = e.target.dataset.img;
+    const filePath = imgUrl.split("/").slice(-1)[0]; // extract filename
+
+    // Confirm delete
+    if (!confirm("Are you sure you want to delete this player?")) return;
+
+    // Delete from DB
+    const { error: dbError } = await db.from("players").delete().eq("id", playerId);
+    if (dbError) return alert("Database delete error: " + dbError.message);
+
+    // Delete image from storage
+    const { error: storageError } = await db.storage.from("players").remove([`players/${filePath}`]);
+    if (storageError) return alert("Image delete error: " + storageError.message);
+
+    alert("Player deleted!");
+    loadPlayers(); // refresh UI
+  }
+});
+
