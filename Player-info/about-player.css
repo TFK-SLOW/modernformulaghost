@@ -174,24 +174,71 @@ body {
 }
 
 /* Modal styling */
-.modal {
-  display: none; position: fixed; top: 0; left: 0;
-  width: 100%; height: 100%; background: rgba(0,0,0,0.7);
-  justify-content: center; align-items: center; z-index: 1001;
+/* Auth container */
+#auth-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 }
-.modal-content {
-  background: #fff; padding: 2rem; border-radius: 10px;
-  max-width: 400px; width: 90%; position: relative;
+
+/* Login and Signup Form styles */
+.auth-form {
+  background-color: #111;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffcc;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 300px;
+  color: white;
 }
-.modal-content .close {
-  position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer;
+
+/* Form Inputs */
+.auth-form input {
+  padding: 10px;
+  border: 1px solid #00ffcc;
+  background-color: transparent;
+  color: white;
+  border-radius: 5px;
+  outline: none;
 }
-.modal-content input, .modal-content button {
-  width: 100%; padding: 10px; margin-top: 1rem;
-  border-radius: 6px; border: 1px solid #ccc;
+
+/* Buttons */
+.auth-form button {
+  padding: 10px;
+  background-color: #00ffcc;
+  border: none;
+  color: black;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
-.modal-content button {
-  background: #333; color: #fff; border: none; cursor: pointer;
+
+.auth-form button:hover {
+  background-color: #00ccaa;
+}
+
+/* User display name */
+#user-name {
+  display: none;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #00ffcc;
+  color: black;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-weight: bold;
+  z-index: 1000;
 }
 
 .close {
