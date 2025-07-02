@@ -1,4 +1,4 @@
-/* Base Reset */
+/* === Base Reset === */
 * {
   margin: 0;
   padding: 0;
@@ -6,53 +6,21 @@
 }
 
 body {
-  height: 100%;
   font-family: 'Segoe UI', sans-serif;
-  color: #fff;
   background-color: black;
+  color: white;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-.background-layer {
-  background-color: black;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: -2;
-}
 
+/* === Background Styling === */
 .background {
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
   width: 100vw;
-  background-image: url('mfg.jpg'); /* <- Replace this with your image path */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  z-index: -1; /* Make sure it stays behind all content */
-  filter: blur(8px); /* Optional: remove if you don't want blur */
-}
-
-/* Background Layers */
-.background-layer {
-  background-color: black;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
   height: 100vh;
-  z-index: -2;
-}
-
-.background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 100vw;
   background-image: url('../MFG FORM/mfg.jpg');
   background-size: cover;
   background-position: center;
@@ -61,17 +29,33 @@ body {
   filter: blur(8px);
 }
 
-/* Navbar */
+.background-layer {
+  background-color: black;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: -2;
+}
+
+
+/* === Navbar === */
 .navbar {
   position: sticky;
   top: 0;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(6px);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
   padding: 1rem 2rem;
   z-index: 1000;
+}
+
+.left-nav, .right-nav {
+  display: flex;
+  align-items: center;
 }
 
 .left-nav a,
@@ -79,129 +63,54 @@ body {
 .upload-btn {
   margin-right: 1rem;
   text-decoration: none;
-  color: #fff;
+  color: white;
   font-weight: 500;
 }
 
-.left-nav {
-  display: flex;
-  align-items: center;
-}
-
-.right-nav {
-  display: flex;
-  align-items: center;
-}
-
-.navbar .logo img {
-  height: 50px;
-  width: auto;
-}
-
-.search-container {
-  flex-grow: 1;
-  margin: 0 2rem;
-  max-width: 300px;
-}
-
-#searchInput {
-  width: 100%;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  outline: none;
-  background-color: #222;
-  color: #fff;
-  border: 1px solid #444;
-}
-
-#searchInput::placeholder {
-  color: #aaa;
-}
-
-.nav-links a {
-  margin-left: 2rem;
-  text-decoration: none;
-  color: #fff;
-  transition: color 0.3s;
-}
-
-.nav-links a:hover {
-  color: #ff0000;
-}
-
-/* Upload Button */
 .upload-btn {
-  background-color: #0f0f0f;
-  color: white;
-  border: none;
   padding: 8px 16px;
+  background-color: #222;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
   box-shadow: 0 0 10px #ff0000;
   transition: background 0.3s;
-  margin-left: 1rem;
 }
 
-.upload-btn:hover {
-  background: #1a1a1a;
+.upload-btn:hover,
+.right-nav a:hover {
+  color: #ff0;
+  background-color: #1a1a1a;
 }
 
-/* Navbar layout */
-.navbar {
-  display: flex; justify-content: space-between; align-items: center;
-  background: rgba(0,0,0,0.7); padding: 1rem 2rem; position: sticky; top: 0; z-index: 1000;
-}
-.left-nav, .right-nav {
-  display: flex; align-items: center;
-}
-.left-nav a, .right-nav a, .upload-btn {
-  margin-right: 1rem; color: #fff; text-decoration: none;
-}
-.upload-btn {
-  padding: 8px 16px; background: #222; border: none; border-radius: 6px; cursor: pointer;
-}
-.upload-btn:hover, .right-nav a:hover { color: #ff0; }
 
-/* Grid for player cards */
-.player-grid {
-  display: grid; gap: 2rem; padding: 2rem;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 768px) {
-  .player-grid { grid-template-columns: repeat(2,1fr); }
-}
-
-/* Modal styling */
-/* Auth container */
+/* === Auth Modal (Login/Signup) === */
 #auth-container {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 999;
 }
 
-/* Login and Signup Form styles */
 .auth-form {
   background-color: #111;
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 0 10px #00ffcc;
+  box-shadow: 0 0 15px #00ffcc;
   display: flex;
   flex-direction: column;
   gap: 15px;
-  width: 300px;
+  width: 320px;
   color: white;
+  position: relative;
 }
 
-/* Form Inputs */
 .auth-form input {
   padding: 10px;
   border: 1px solid #00ffcc;
@@ -211,7 +120,6 @@ body {
   outline: none;
 }
 
-/* Buttons */
 .auth-form button {
   padding: 10px;
   background-color: #00ffcc;
@@ -220,14 +128,13 @@ body {
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
-  transition: 0.3s ease;
+  transition: background 0.3s ease;
 }
 
 .auth-form button:hover {
   background-color: #00ccaa;
 }
 
-/* User display name */
 #user-name {
   display: none;
   position: fixed;
@@ -241,129 +148,71 @@ body {
   z-index: 1000;
 }
 
-.close {
-  float: right;
+.close-login {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 22px;
   cursor: pointer;
-  font-size: 24px;
   color: white;
 }
 
-/* Player Grid */
-.player-grid {
-  display: grid;
-  gap: 2rem;
-  margin-top: 2rem;
-  padding: 2rem;
-}
 
-/* Player Card */
-.player-card {
-  background: #1a1a1a;
-  display: flex;
-  align-items: center;
+/* === Upload Player Modal === */
+#uploadModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #111;
+  color: white;
+  padding: 30px;
   border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 0 10px rgb(183, 183, 183);
-  transition: transform 0.3s;
+  box-shadow: 0 0 15px #ff0000;
+  z-index: 1000;
+  width: 90%;
+  max-width: 400px;
+  display: none;
 }
 
-.player-card:hover {
-  transform: translateY(-5px);
-}
-
-.player-img {
-  margin-right: 1.5rem;
-  flex-shrink: 0;
-}
-
-.player-img img {
-  width: 100px;
-  height: auto;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.player-info {
-  flex: 1;
-}
-
-.player-info h3 {
-  color: #ff0000;
-  margin-bottom: 0.5rem;
-}
-
-.player-info p {
-  margin: 0.25rem 0;
-}
-
-/* Footer */
-footer {
+#uploadModal input,
+#uploadModal select {
   width: 100%;
-  text-align: center;
-  padding: 20px;
+  margin: 10px 0;
+  padding: 10px;
+  background: #1c1c1c;
+  border: 1px solid #444;
   color: white;
-  background-color: rgba(0, 0, 0, 0.8);
-  margin-top: 2rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
 }
 
-footer p {
-  margin: 0.5rem 0;
-}
-
-.powered-by {
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
-
-footer a {
-  color: #ff0000;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-footer a:hover {
-  color: #00ffee;
-}
-
-footer a:visited {
-  color: red;
-}
-
-
-.player-grid {
-  display: grid;
-  gap: 2rem;
-  padding: 2rem;
-  grid-template-columns: 1fr; /* default: 1 column for mobile */
-}
-
-@media (min-width: 768px) {
-  .player-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets and up */
-  }
-}
-
-.delete-btn {
-  margin-top: 10px;
-  padding: 6px 12px;
-  background: #ff4d4d;
+#uploadModal button {
+  background: #ff0000;
   color: white;
   border: none;
+  padding: 10px 16px;
   border-radius: 6px;
   cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  font-weight: bold;
 }
 
-.delete-btn:hover {
-  background: #e60000;
+#uploadModal button:hover {
+  background: #cc0000;
 }
 
-.close-login {
-  float: right;
-  font-size: 24px;
+#uploadModal .close {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 22px;
   cursor: pointer;
+  color: #fff;
 }
 
+
+/* === Footer === */
 footer {
   width: 100%;
   text-align: center;
@@ -378,11 +227,6 @@ footer p {
   margin: 0.5rem 0;
 }
 
-.powered-by {
-  font-size: 0.8rem;
-  opacity: 0.7;
-}
-
 footer a {
   color: #ff0000;
   text-decoration: none;
@@ -395,4 +239,9 @@ footer a:hover {
 
 footer a:visited {
   color: red;
+}
+
+.powered-by {
+  font-size: 0.8rem;
+  opacity: 0.7;
 }
