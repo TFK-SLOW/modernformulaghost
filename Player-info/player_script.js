@@ -129,3 +129,55 @@ onAuthStateChanged(auth, (user) => {
     window.location.href = "/login.html";
   }
 });
+
+
+// Firebase configuration (same config should be used)
+const firebaseConfig = {
+  apiKey: "AIzaSyC...zE",  // keep as is
+  authDomain: "modernformulaghost.firebaseapp.com",
+  projectId: "modernformulaghost",
+  storageBucket: "modernformulaghost.appspot.com",
+  messagingSenderId: "719727118512",
+  appId: "1:719727118512:web:b0a50f708a5a5987895a0b",
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+// Login
+document.getElementById('login-form')?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+
+  auth.signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      alert(`Welcome back ${user.email}`);
+      document.getElementById('login-form').reset();
+      document.getElementById('auth-container').style.display = 'none';
+      document.getElementById('user-name').innerText = user.email;
+      document.getElementById('user-name').style.display = 'block';
+    })
+    .catch((error) => {
+      alert("Login failed: " + error.message);
+    });
+});
+
+// Sign Up
+document.getElementById('signup-form')?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('signup-email').value;
+  const password = document.getElementById('signup-password').value;
+
+  auth.createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      alert("Signup successful!");
+      document.getElementById('signup-form').reset();
+    })
+    .catch((error) => {
+      alert("Signup failed: " + error.message);
+    });
+});
