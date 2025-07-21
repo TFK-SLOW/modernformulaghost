@@ -132,11 +132,6 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-
 // Login
 document.getElementById('login-form')?.addEventListener('submit', (e) => {
   e.preventDefault();
