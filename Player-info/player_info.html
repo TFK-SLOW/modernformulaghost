@@ -66,6 +66,25 @@
     </div>
   </div>
 
+  <!-- Upload Button in Navbar -->
+<button id="uploadBtn" class="upload-btn">Upload Player</button>
+
+<!-- Upload Player Modal -->
+<div id="uploadModal" class="modal">
+  <div class="modal-content">
+    <span id="closeUpload" class="close">&times;</span>
+    <h2>Upload Player Info</h2>
+    <form id="uploadForm">
+      <input type="text" id="ign" placeholder="IGN" required />
+      <input type="text" id="drivetrain" placeholder="Drive Train (RWD/AWD)" required />
+      <input type="text" id="clanRank" placeholder="Clan Rank" required />
+      <input type="text" id="playerId" placeholder="Player ID" required />
+      <input type="file" id="playerImage" accept="image/*" required />
+      <button type="submit">Upload</button>
+    </form>
+  </div>
+</div>
+
   <footer>
     <p id="tiktok">
       Contact us:<br>
