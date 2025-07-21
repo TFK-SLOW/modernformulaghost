@@ -181,3 +181,21 @@ document.getElementById('signup-form')?.addEventListener('submit', (e) => {
       alert("Signup failed: " + error.message);
     });
 });
+
+  const loginBtn = document.getElementById('loginBtn');
+  const loginModal = document.getElementById('loginModal');
+
+  loginBtn.addEventListener('click', () => {
+    loginModal.style.display = 'flex';
+  });
+
+  function closeLoginModal() {
+    loginModal.style.display = 'none';
+  }
+
+  // Optional: close modal when clicking outside
+  window.addEventListener('click', (e) => {
+    if (e.target === loginModal) {
+      loginModal.style.display = 'none';
+    }
+  });
