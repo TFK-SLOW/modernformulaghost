@@ -21,14 +21,14 @@
       <span id="userDisplay"></span>
     </div>
   </nav>
-  
+
   <div class="background"></div>
   <main id="playerContainer" class="player-grid"></main>
 
-  <!-- Upload Modal -->
+  <!-- Upload Modal (optional for now) -->
   <div id="uploadModal" class="modal">
     <div class="modal-content">
-      <span class="close">&times;</span>
+      <span class="close" onclick="closeUploadModal()">&times;</span>
       <form id="playerForm">
         <input type="text" id="ign" placeholder="IGN" required />
         <input type="text" id="drivetrain" placeholder="Drive Train (RWD/AWD)" required />
@@ -41,19 +41,30 @@
   </div>
 
   <!-- Login Modal -->
-    <div id="loginModal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <span class="close" onclick="closeLoginModal()">&times;</span>
-        <h2>Login</h2>
-        <input type="email" id="loginEmail" placeholder="Email" />
-        <input type="password" id="loginPassword" placeholder="Password" />
-        <button onclick="login()">Login</button>
-        <p><a href="#" onclick="resetPassword()">Forgot password?</a></p>
-        <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
-      </div>
+  <div id="loginModal" class="modal">
+    <div class="modal-content auth-form">
+      <span class="close" id="closeLogin">&times;</span>
+      <h2>Login</h2>
+      <input type="email" id="loginEmail" placeholder="Email" required />
+      <input type="password" id="loginPassword" placeholder="Password" required />
+      <button onclick="login()">Login</button>
+      <p><a href="#" onclick="resetPassword()">Forgot password?</a></p>
+      <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
     </div>
+  </div>
 
-    <footer>
+  <!-- Sign‑Up Modal -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content auth-form">
+      <span class="close" id="closeSignup">&times;</span>
+      <h2>Sign Up</h2>
+      <input type="email" id="signupEmail" placeholder="Email" required />
+      <input type="password" id="signupPassword" placeholder="Password" required />
+      <button onclick="signup()">Sign Up</button>
+    </div>
+  </div>
+
+  <footer>
     <p id="tiktok">
       Contact us:<br>
       <a href="https://www.tiktok.com/@mfgteam" target="_blank">TIKTOK</a><br>
