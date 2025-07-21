@@ -5,9 +5,11 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
 
 const firebaseConfig = {
   apiKey: "AIzaSyDKjvERjZEGVOkcBtlduUZFA6kRk6k-B18",
-  authDomain: "modern-formula-ghost.firebaseapp.com",
-  projectId: "modern-formula-ghost",
-  appId: "1:456424596100:web:556a3eeb39d8329aca98d1",
+  authDomain: "modernformulaghost.firebaseapp.com",
+  projectId: "modernformulaghost",
+  storageBucket: "modernformulaghost.appspot.com",
+  messagingSenderId: "719727118512",
+  appId: "1:719727118512:web:b0a50f708a5a5987895a0b",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -130,16 +132,6 @@ onAuthStateChanged(auth, (user) => {
   }
 });
 
-
-// Firebase configuration (same config should be used)
-const firebaseConfig = {
-  apiKey: "AIzaSyC...zE",  // keep as is
-  authDomain: "modernformulaghost.firebaseapp.com",
-  projectId: "modernformulaghost",
-  storageBucket: "modernformulaghost.appspot.com",
-  messagingSenderId: "719727118512",
-  appId: "1:719727118512:web:b0a50f708a5a5987895a0b",
-};
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
