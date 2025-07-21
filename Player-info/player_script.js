@@ -1,7 +1,7 @@
 // Modal handlers
 const loginModal = document.getElementById("loginModal");
 const loginBtn = document.getElementById("loginBtn");
-const closeLogin = document.querySelector("#loginModal .close");
+const closeLogin = document.getElementById("closeLogin");
 
 loginBtn.addEventListener("click", () => {
   loginModal.style.display = "flex";
