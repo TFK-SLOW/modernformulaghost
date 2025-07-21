@@ -77,3 +77,118 @@ onAuthStateChanged(auth, (user) => {
     });
   }
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Modal elements
+  const uploadModal = document.getElementById("uploadModal");
+  const uploadBtn = document.getElementById("uploadBtn");
+  const closeUpload = document.getElementById("closeUpload");
+  const uploadForm = document.getElementById("uploadForm");
+
+  // Show upload modal (only if logged in)
+  uploadBtn.addEventListener("click", () => {
+    if (firebase.auth().currentUser) {
+      uploadModal.style.display = "flex";
+    } else {
+      alert("You must be logged in to upload a player.");
+    }
+  });
+
+  // Close modal
+  closeUpload.addEventListener("click", () => {
+    uploadModal.style.display = "none";
+  });
+
+  // Close when clicking outside modal
+  window.addEventListener("click", (e) => {
+    if (e.target === uploadModal) {
+      uploadModal.style.display = "none";
+    }
+  });
+
+  // Handle form submission
+  uploadForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const user = firebase.auth().currentUser;
+    if (!user) return alert("You must be logged in to upload.");
+
+    const ign = document.getElementById("ign").value;
+    const drivetrain = document.getElementById("drivetrain").value;
+    const clanRank = document.getElementById("clanRank").value;
+    const playerId = document.getElementById("playerId").value;
+    const imageFile = document.getElementById("playerImage").files[0];
+
+    if (!imageFile) return alert("Please select an image.");
+
+    const imageRef = firebase.storage().ref().child(`players/${Date.now()}_${imageFile.name}`);
+    await imageRef.put(imageFile);
+    const imageUrl = await imageRef.getDownloadURL();
+
+    await firebase.firestore().collection("players").add({
+      ign,
+      drivetrain,
+      clanRank,
+      playerId,
+      imageUrl,
+      uid: user.uid,
+      email: user.email,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    alert("Player uploaded successfully!");
+    uploadForm.reset();
+    uploadModal.style.display = "none";
+    loadPlayers(); // Refresh cards
+  });
+
+  // Load and display all players
+  async function loadPlayers() {
+    const container = document.getElementById("playerContainer");
+    container.innerHTML = "";
+    const user = firebase.auth().currentUser;
+
+    const querySnapshot = await firebase.firestore()
+      .collection("players")
+      .orderBy("timestamp", "desc")
+      .get();
+
+    querySnapshot.forEach((doc) => {
+      const data = doc.data();
+      const isOwner = user && (user.uid === data.uid || isAdmin(user.email));
+
+      const card = document.createElement("div");
+      card.className = "player-card";
+      card.innerHTML = `
+        <img src="${data.imageUrl}" alt="${data.ign}" />
+        <h3>${data.ign}</h3>
+        <p>Drive Train: ${data.drivetrain}</p>
+        <p>Clan Rank: ${data.clanRank}</p>
+        <p>Player ID: ${data.playerId}</p>
+        ${isOwner ? `<button class="delete-btn" data-id="${doc.id}">Delete</button>` : ""}
+      `;
+      container.appendChild(card);
+    });
+
+    // Add delete button functionality
+    document.querySelectorAll(".delete-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const id = btn.getAttribute("data-id");
+        if (confirm("Are you sure you want to delete this player?")) {
+          await firebase.firestore().collection("players").doc(id).delete();
+          loadPlayers();
+        }
+      });
+    });
+  }
+
+  // Auto-refresh when user logs in
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) loadPlayers();
+  });
+
+  // Simple admin check (replace with real admin logic)
+  function isAdmin(email) {
+    const adminEmails = ["admin@example.com", "youremail@gmail.com"]; // Add your admin emails
+    return adminEmails.includes(email);
+  }
+});
