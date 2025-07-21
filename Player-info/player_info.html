@@ -41,16 +41,14 @@
   </div>
 
   <!-- Login Modal -->
-    <div id="loginModal" class="modal">
+    <div id="loginModal" class="modal" style="display: none;">
       <div class="modal-content">
         <span class="close" onclick="closeLoginModal()">&times;</span>
         <h2>Login</h2>
         <input type="email" id="loginEmail" placeholder="Email" />
         <input type="password" id="loginPassword" placeholder="Password" />
         <button onclick="login()">Login</button>
-        <p>
-          <a href="#" onclick="resetPassword()">Forgot password?</a>
-        </p>
+        <p><a href="#" onclick="resetPassword()">Forgot password?</a></p>
         <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
       </div>
     </div>
