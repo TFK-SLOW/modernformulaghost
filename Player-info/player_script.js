@@ -197,3 +197,30 @@ function openUploadModal() {
 function closeUploadModal() {
   document.getElementById("uploadModal").style.display = "none";
 }
+
+function openUploadModal() {
+  const modal = document.getElementById("uploadModal");
+  if (modal) {
+    modal.style.display = "block";
+  }
+}
+
+function closeUploadModal() {
+  const modal = document.getElementById("uploadModal");
+  if (modal) {
+    modal.style.display = "none";
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const uploadBtn = document.getElementById("uploadBtn");
+  const submitBtn = document.getElementById("submitPlayer");
+
+  if (uploadBtn) {
+    uploadBtn.addEventListener("click", openUploadModal);
+  }
+
+  if (submitBtn) {
+    submitBtn.addEventListener("click", submitPlayerCard); // You must define this function to handle the upload
+  }
+});
