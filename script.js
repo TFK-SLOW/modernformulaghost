@@ -3,7 +3,9 @@ const firebaseConfig = {
   apiKey: "AIzaSyDKjvERjZEGVOkcBtlduUZFA6kRk6k-B18",
   authDomain: "modern-formula-ghost.firebaseapp.com",
   projectId: "modern-formula-ghost",
-  appId: "1:456424596100:web:556a3eeb39d8329aca98d1",
+  storageBucket: "modern-formula-ghost.appspot.com",
+  messagingSenderId: "719727118512",
+  appId: "1:719727118512:web:b0a50f708a5a5987895a0b",
   measurementId: "G-JHDBDZ1YZ6"
 };
 
