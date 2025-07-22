@@ -191,14 +191,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function openUploadModal() {
-  document.getElementById("uploadModal").style.display = "flex";
-}
-
-function closeUploadModal() {
-  document.getElementById("uploadModal").style.display = "none";
-}
-
-function openUploadModal() {
   const modal = document.getElementById("uploadModal");
   if (modal) {
     modal.style.display = "block";
