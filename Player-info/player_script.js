@@ -26,9 +26,9 @@ import {
 
 const firebaseConfig = {
   apiKey: "AIzaSyDKjvERjZEGVOkcBtlduUZFA6kRk6k-B18",
-  authDomain: "modernformulaghost.firebaseapp.com",
-  projectId: "modernformulaghost",
-  storageBucket: "modernformulaghost.appspot.com",
+  authDomain: "modern-formula-ghost.firebaseapp.com",
+  projectId: "modern-formula-ghost",
+  storageBucket: "modern-formula-ghost.appspot.com",
   messagingSenderId: "719727118512",
   appId: "1:719727118512:web:b0a50f708a5a5987895a0b",
 };
@@ -38,65 +38,54 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
-// --- Login Modal ---
-const loginModal = document.getElementById("loginModal");
-const loginBtn = document.getElementById("loginBtn");
-const closeLogin = document.getElementById("closeLogin");
-
-loginBtn.addEventListener("click", () => {
-  loginModal.style.display = "flex";
-});
-closeLogin.addEventListener("click", () => {
-  loginModal.style.display = "none";
-});
-window.addEventListener("click", (e) => {
-  if (e.target === loginModal) loginModal.style.display = "none";
-});
-
-// --- Login Auth Handler ---
-const loginForm = document.getElementById("loginForm");
-const loginEmail = document.getElementById("loginEmail");
-const loginPassword = document.getElementById("loginPassword");
-const loginError = document.getElementById("loginError");
-
-loginForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value)
-    .then(() => {
-      loginModal.style.display = "none";
-      loginForm.reset();
-      loginError.textContent = "";
-    })
-    .catch((error) => {
-      loginError.textContent = error.message;
-    });
-});
-
-// --- Upload Modal Logic ---
 document.addEventListener("DOMContentLoaded", () => {
+  // --- Login Modal ---
+  const loginModal = document.getElementById("loginModal");
+  const loginBtn = document.getElementById("loginBtn");
+  const closeLogin = document.getElementById("closeLogin");
+
+  loginBtn?.addEventListener("click", () => {
+    loginModal.style.display = "flex";
+  });
+  closeLogin?.addEventListener("click", () => {
+    loginModal.style.display = "none";
+  });
+  window.addEventListener("click", (e) => {
+    if (e.target === loginModal) loginModal.style.display = "none";
+  });
+
+  // --- Login Form ---
+  const loginForm = document.getElementById("loginForm");
+  const loginEmail = document.getElementById("loginEmail");
+  const loginPassword = document.getElementById("loginPassword");
+  const loginError = document.getElementById("loginError");
+
+  loginForm?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(auth, loginEmail.value, loginPassword.value)
+      .then(() => {
+        loginModal.style.display = "none";
+        loginForm.reset();
+        loginError.textContent = "";
+      })
+      .catch((error) => {
+        loginError.textContent = error.message;
+      });
+  });
+
+  // --- Upload Modal Logic ---
   const uploadModal = document.getElementById("uploadModal");
-  const uploadBtn = document.getElementById("uploadBtn");
   const closeUpload = document.getElementById("closeUpload");
   const uploadForm = document.getElementById("uploadForm");
 
-  // Show Upload Modal
-  uploadBtn.addEventListener("click", () => {
-    if (auth.currentUser) {
-      uploadModal.style.display = "flex";
-    } else {
-      alert("You must be logged in to upload a player.");
-    }
-  });
-
-  closeUpload.addEventListener("click", () => {
+  closeUpload?.addEventListener("click", () => {
     uploadModal.style.display = "none";
   });
-
   window.addEventListener("click", (e) => {
     if (e.target === uploadModal) uploadModal.style.display = "none";
   });
 
-  uploadForm.addEventListener("submit", async (e) => {
+  uploadForm?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const user = auth.currentUser;
     if (!user) return alert("Login required.");
@@ -130,9 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
     loadPlayers();
   });
 
-  // --- Load Player Cards ---
   async function loadPlayers() {
     const container = document.getElementById("playerContainer");
+    if (!container) return;
     container.innerHTML = "";
     const user = auth.currentUser;
 
@@ -167,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Admin Emails
   function isAdmin(email) {
     const admins = ["admin@example.com", "youremail@gmail.com"];
     return admins.includes(email);
@@ -175,44 +163,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   onAuthStateChanged(auth, (user) => {
     const rightNav = document.querySelector(".right-nav");
+    if (!rightNav) return;
     if (user) {
       rightNav.innerHTML = `<span>Welcome, ${user.email}</span> <button id="logoutBtn" class="upload-btn">Logout</button>`;
-      document.getElementById("logoutBtn").addEventListener("click", () => {
+      document.getElementById("logoutBtn")?.addEventListener("click", () => {
         signOut(auth);
       });
       loadPlayers();
     } else {
       rightNav.innerHTML = `<button id="loginBtn" class="upload-btn">LOGIN</button>`;
-      document.getElementById("loginBtn").addEventListener("click", () => {
+      document.getElementById("loginBtn")?.addEventListener("click", () => {
         loginModal.style.display = "flex";
       });
     }
   });
-});
-
-function openUploadModal() {
-  const modal = document.getElementById("uploadModal");
-  if (modal) {
-    modal.style.display = "block";
-  }
-}
-
-function closeUploadModal() {
-  const modal = document.getElementById("uploadModal");
-  if (modal) {
-    modal.style.display = "none";
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  const uploadBtn = document.getElementById("uploadBtn");
-  const submitBtn = document.getElementById("submitPlayer");
-
-  if (uploadBtn) {
-    uploadBtn.addEventListener("click", openUploadModal);
-  }
-
-  if (submitBtn) {
-    submitBtn.addEventListener("click", submitPlayerCard); // You must define this function to handle the upload
-  }
 });
