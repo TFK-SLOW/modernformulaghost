@@ -189,3 +189,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+function openUploadModal() {
+  document.getElementById("uploadModal").style.display = "flex";
+}
+
+function closeUploadModal() {
+  document.getElementById("uploadModal").style.display = "none";
+}
