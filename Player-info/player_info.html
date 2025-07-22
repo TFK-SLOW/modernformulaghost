@@ -12,7 +12,7 @@
 <body>
   <nav class="navbar">
     <div class="left-nav">
-      <button id="uploadBtn" class="upload-btn">Upload Player</button>
+      <a href="#" onclick="openUploadModal()">Upload Player</a>
       <a href="/index.html">Home</a>
       <a href="/Player-info/player_info.html">Players</a>
     </div>
@@ -67,21 +67,22 @@
   </div>
 
 
-<!-- Upload Player Modal -->
-<div id="uploadModal" class="modal">
+<!-- Upload Modal -->
+<div id="uploadModal" class="modal" style="display:none;">
   <div class="modal-content">
-    <span id="closeUpload" class="close">&times;</span>
+    <span class="close" onclick="closeUploadModal()">&times;</span>
     <h2>Upload Player Info</h2>
-    <form id="uploadForm">
-      <input type="text" id="ign" placeholder="IGN" required />
-      <input type="text" id="drivetrain" placeholder="Drive Train (RWD/AWD)" required />
-      <input type="text" id="clanRank" placeholder="Clan Rank" required />
-      <input type="text" id="playerId" placeholder="Player ID" required />
-      <input type="file" id="playerImage" accept="image/*" required />
-      <button type="submit">Upload</button>
-    </form>
+
+    <input type="text" id="ign" placeholder="IGN (In-Game Name)" required />
+    <input type="text" id="drivetrain" placeholder="Drive Train (RWD/AWD/FWD)" required />
+    <input type="text" id="clanRank" placeholder="Clan Rank (e.g. Leader)" required />
+    <input type="text" id="playerId" placeholder="Player ID" required />
+    <input type="file" id="imageUpload" accept="image/*" required />
+
+    <button onclick="submitPlayer()">Post</button>
   </div>
 </div>
+  
 
   <footer>
     <p id="tiktok">
