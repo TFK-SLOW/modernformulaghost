@@ -189,80 +189,30 @@ function getDeviceLocation() {
 
 const deviceLoc = await getDeviceLocation();
 
-// --- Final Message ---
-const message = ` 
-**New Form Submission 😁**
+// --- Post data to Google Apps Script Web App ---
+const postData = {
+  name,
+  age,
+  gameId,
+  ign,
+  drivetrain,
+  reason,
+  inClub,
+  clubName,
+  contact,
+  ip,
+  city,
+  region,
+  country,
+  browser,
+  platform
+};
 
-┏━━━━━━━━━━━━━━━━━━┓
- 👤 Name: ${name}
- 🎂 Age: ${age}
- 🎮 Game ID: ${gameId}
- 🆔 In-Game Name: ${ign}
- 🚗 Drivetrain: ${drivetrain}
- 📝 Reason: ${reason}
- ❓ In Club?: ${inClub}
- 🏷️ Club Name: ${clubName}
- 📧 Contact: ${contact}
-┗━━━━━━━━━━━━━━━━━━┛
+await fetch("https://script.google.com/macros/s/AKfycbxvvHDPB2B8SBVNANZLBJPZtjBzERnvjxnunWHCr2u60JX_36tUKaxkTsVVm8GjEUfc/exec", {
+  method: "POST",
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(postData)
+});
 
-┏━━━━━━━━━━━━━━━━━━┓
-**📍 IP-Based Location**
- 🌐 IP Address: ${ip} (${version})
- 🏙️ City: ${city}
- 🗺️ Region: ${region}
- 🌎 Country: ${country}
- 🏤 Postal Code: ${postal}
- 📌 Latitude: ${ipLat}
- 📌 Longitude: ${ipLon}
- 🧭 Timezone: ${timezone}
- 🛰️ Internet Provider: ${org}
-┗━━━━━━━━━━━━━━━━━━━┛
-
-┏━━━━━━━━━━━━━━━━━━━┓
-**📍 Device-Based GPS Location**
- 📌 Latitude: ${deviceLoc.latitude}
- 📌 Longitude: ${deviceLoc.longitude}
- 🎯 Accuracy: ${deviceLoc.accuracy}
- 🕒 Timestamp: ${deviceLoc.timestamp}
-┗━━━━━━━━━━━━━━━━━━━┛
-
-┏━━━━━━━━━━━━━━━━━━━┓
- **💻 Device Info**
- 🧠 Browser: ${browser}
- 🖥️ OS: ${platform}
- 📆 Time: ${time}
- 🔍 User Agent: ${userAgent}
-┗━━━━━━━━━━━━━━━━━━━┛
-
-┏━━━━━━━━━━━━━━━━━━━┓
- ⚠️ Information is confidential and shall not be shared outside this group ⚠️
-┗━━━━━━━━━━━━━━━━━━━┛
-`;
-
-  const botToken = "7667330008:AAHUx9qjLLGVjr-5_LPSVvabFFt63cPYkCA";
-  const chatId = "-1002509362547";
-
-  if (screenshotFile) {
-    const formData = new FormData();
-    formData.append("chat_id", chatId);
-    formData.append("caption", message);
-    formData.append("photo", screenshotFile);
-
-    await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-      method: "POST",
-      body: formData
-    });
-  } else {
-    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: "POST",
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: message,
-        parse_mode: "Markdown"
-      })
-    });
-  }
-
-  window.location.href = "success folder/success.html";
+window.location.href = "success folder/success.html";
 });
