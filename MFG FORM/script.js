@@ -210,6 +210,7 @@ const postData = {
 
 await fetch("https://script.google.com/macros/s/AKfycbxvvHDPB2B8SBVNANZLBJPZtjBzERnvjxnunWHCr2u60JX_36tUKaxkTsVVm8GjEUfc/exec", {
   method: "POST",
+  mode: "no-cors", // 👈 bypass CORS check
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(postData)
 });
